@@ -10,7 +10,7 @@ function App() {
   }, []);
   return (
     <div>
-      <h1>TripSense</h1>
+      <h1>Hotbidz</h1>
       <p>Backend says: {message}</p>
     </div>
   );
