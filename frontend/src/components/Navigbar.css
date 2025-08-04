@@ -1,0 +1,79 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;  /* Reduced padding */
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  color: white;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.logo {
+  font-size: 1.15rem; /* Smaller text */
+  font-weight: 300;
+  color: white;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem; /* Less spacing between links */
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  position: relative;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 400;
+  font-size: 0.95rem; /* Slightly smaller text */
+  padding: 0.4rem 0.8rem; /* Compact padding */
+  transition: color 0.3s ease;
+  z-index: 1;
+}
+
+/* Glassy hover effect */
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: 6px;
+}
+
+.nav-links a:hover::before {
+  opacity: 1;
+}
+
+.nav-links a:hover {
+  color: #f49a1d;
+}
+
+.nav-links::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,92 @@
+/* Import this in index.html <head> section */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background: transparent;
+  font-family: 'Monoton', cursive;
+  text-align: center;
+}
+
+.profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.profile-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 2rem 3rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  color: white;
+  max-width: 480px;
+  width: 90%;
+}
+
+.profile-card h1 {
+  font-size: 1.7rem;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+  font-weight: 350;
+}
+
+.profile-card  {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile-card p {
+  font-size: 1.1rem;
+  margin: 0.4rem 0;
+}
+
+
+
+.achievement-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 10px;
+}
+
+.achievement-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 80px;
+}
+
+.achievement-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.achievement-list p {
+  display: inline-block;
+  margin: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.achievements h4 {
+  font-size: 1.4rem;
+  color: #e07640; /* golden-orange tone */
+  margin-bottom: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
