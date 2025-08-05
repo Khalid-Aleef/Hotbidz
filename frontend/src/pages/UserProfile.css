@@ -1,5 +1,5 @@
-/* Import this in index.html <head> section */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+
 
 .profile-container {
   display: flex;
@@ -84,9 +84,65 @@
 
 .achievements h4 {
   font-size: 1.4rem;
-  color: #e07640; /* golden-orange tone */
+  color: #e07640; 
   margin-bottom: 0.8rem;
   letter-spacing: 1px;
   text-transform: uppercase;
   font-weight: 400;
+}
+
+.car-showcase {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.car-showcase h4 {
+  font-size: 1.1rem;
+  color: #f49a1d;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.car-tile-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.car-tile {
+  background: rgba(255,255,255,0.14);
+  border-radius: 10px;
+  padding: 0.5rem 0.4rem 0.7rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+  min-width: 80px;
+  max-width: 120px;
+}
+
+.car-tile-img {
+  width: 70px;
+  height: 45px;
+  object-fit: contain;
+  border-radius: 5px;
+  margin-bottom: 0.4rem;
+}
+
+.car-tile-title {
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 0.1rem;
+  text-align: center;
+}
+
+.car-tile-rarity {
+  font-size: 0.85rem;
+  color: #ffbe76;
+  font-weight: 400;
+  text-align: center;
+  opacity: 0.87;
 }

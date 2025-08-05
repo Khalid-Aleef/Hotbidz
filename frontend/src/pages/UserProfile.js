@@ -6,13 +6,21 @@ import './UserProfile.css';
 const UserProfile = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
+  const [cars, setCars] = useState([]); 
 
+  // user
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/users/688f37b0562b67f3bdd8e0b8`)
+    axios.get(`http://localhost:5000/api/users/${id}`)
       .then(res => setUser(res.data))
       .catch(err => console.error("Error fetching user", err));
   }, [id]);
-      
+
+  // user's cars
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/inventory/${id}`)
+      .then(res => setCars(res.data))
+      .catch(err => console.error("Error fetching cars", err));
+  }, [id]);
 
   if (!user) return <p>Loading...</p>;
 
@@ -24,7 +32,6 @@ const UserProfile = () => {
           alt="Profile"
           className="profile-img"
         />
-
         <h1>COLLECTOR'S PROFILE</h1>
         <p>Name: {user.name}</p>
         <p>Sex: {user.sex}</p>
@@ -32,7 +39,6 @@ const UserProfile = () => {
         <p>Email: {user.email}</p>
         <p>Type: {user.type}</p>
         <p>Badges: {user.badges?.length ? user.badges.join(', ') : "N/A"}</p>
-
         <div className="achievements">
           <h4>Achievements:</h4>
           {user.achievements?.length > 0 ? (
@@ -44,6 +50,28 @@ const UserProfile = () => {
           ) : (
             <p>N/A</p>
           )}
+        </div>
+        
+        <div className="car-showcase">
+          <h4>My Cars:</h4>
+          <div className="car-tile-list">
+            {cars.length === 0 ? (
+              <p style={{ fontSize: '1rem', opacity: 0.7 }}>No cars to show.</p>
+            ) : (
+              cars.map((car, idx) => (
+                <div className="car-tile" key={car._id || idx}>
+                  <img
+                    src={car.image?.startsWith('http') ? car.image : `${process.env.PUBLIC_URL}/${car.image}`}
+                    alt={car.carName}
+                    className="car-tile-img"
+                  />
+
+                  
+                  <div className="car-tile-rarity">{car.rarity}</div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -1,75 +1,64 @@
-.inventory {
+.auction-container {
   padding: 2rem;
-  text-align: center;
-  color: white;  
+  color: white;
   font-family: 'Monoton', cursive;
-  font-weight: 300;
+  text-align: center;
 }
 
-.inventory h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  font-weight: 300;
-}
-
-
-.inventory-grid {
+.auction-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1rem; 
+  gap: 1rem;
   justify-content: center;
   padding: 1rem;
   box-sizing: border-box;
 }
 
-.car-card {
+.auction-card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
-  padding: 0.75rem;
+  padding: 0.6rem;
   text-align: center;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
   transition: transform 0.2s ease;
   max-width: 180px;
   margin: auto;
-  padding: 0.6rem; 
 }
 
-.car-card h3 {
-  font-size: .9rem;        
-  margin: 0.2rem 0;
-  font-weight: 300;
-}
-
-.car-card p {
-  font-size: 0.75rem;        
-  margin: 0.1rem 0;         
-}
-
-.car-card:hover {
+.auction-card:hover {
   transform: scale(1.02);
 }
 
-.car-card img {
+.auction-img {
   width: 100%;
   height: auto;
   border-radius: 6px;
   margin: 0.5rem 0;
 }
 
-.car-actions,
-.car-tile-actions {
+.auction-card h3 {
+  font-size: .9rem;
+  margin: 0.2rem 0;
+  font-weight: 300;
+}
+
+.auction-card p {
+  font-size: 0.75rem;
+  margin: 0.1rem 0;
+  font-weight: 300;
+}
+
+.auction-actions {
   display: flex;
   gap: 0.5rem;
   justify-content: center;
   margin-top: 0.5rem;
 }
 
-.auction-btn,
-.trade-btn,
-.car-tile-actions .auction-btn,
-.car-tile-actions .trade-btn {
+.bid-btn,
+.auction-trade-btn {
   padding: 0.3rem 0.9rem;
   font-size: 0.7rem;
   border: none;
@@ -80,25 +69,18 @@
   transition: background 0.22s, color 0.22s;
 }
 
-.auction-btn,
-.car-tile-actions .auction-btn {
+.bid-btn {
   background: #ffd700;
   color: #3d2600;
 }
-
-.auction-btn:hover,
-.car-tile-actions .auction-btn:hover {
+.bid-btn:hover {
   background: #ffe574;
 }
 
-.trade-btn,
-.car-tile-actions .trade-btn {
+.auction-trade-btn {
   background: #0d9ddf;
   color: #fff;
 }
-
-.trade-btn:hover,
-.car-tile-actions .trade-btn:hover {
+.auction-trade-btn:hover {
   background: #21b0ff;
 }
-

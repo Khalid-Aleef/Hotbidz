@@ -1,4 +1,4 @@
-// routes/auth.js
+
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
@@ -24,6 +24,7 @@ router.post('/signup', async (req, res) => {
       type: "Fresh",
       email,
       password: hashedPassword,
+      profileImage: "./Userdp/userdp.jpeg",
       achievements: [],
     });
 
@@ -34,5 +35,23 @@ router.post('/signup', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+
+    res.json({ message: 'Login successful', userId: user._id });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+module.exports = router;
+
 
 module.exports = router;

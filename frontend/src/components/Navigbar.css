@@ -6,7 +6,7 @@
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(6px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.5rem 1rem;  /* Reduced padding */
+  padding: 0.5rem 1rem; 
   z-index: 1000;
   display: flex;
   justify-content: space-between;
@@ -14,12 +14,13 @@
   flex-wrap: wrap;
   box-sizing: border-box;
   color: white;
+  font-family: 'Monoton', cursive;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
 
 .logo {
-  font-size: 1.15rem; /* Smaller text */
+  font-size: 1.15rem; 
   font-weight: 300;
   color: white;
 }
@@ -27,7 +28,7 @@
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 1rem; /* Less spacing between links */
+  gap: 1rem; 
   margin: 0;
   padding: 0;
   overflow-x: auto;
@@ -43,13 +44,13 @@
   text-decoration: none;
   color: #fff;
   font-weight: 400;
-  font-size: 0.95rem; /* Slightly smaller text */
-  padding: 0.4rem 0.8rem; /* Compact padding */
+  font-size: 0.95rem; 
+  padding: 0.4rem 0.8rem; 
   transition: color 0.3s ease;
   z-index: 1;
 }
 
-/* Glassy hover effect */
+
 .nav-links a::before {
   content: '';
   position: absolute;
@@ -76,4 +77,83 @@
 
 .nav-links::-webkit-scrollbar {
   display: none;
+}
+
+.logout-btn {
+  background: #f04949;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 1.1rem;
+  font-family: 'Monoton', cursive;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: background 0.22s;
+}
+
+.logout-btn:hover {
+  background: #c72626;
+}
+
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.logout-modal {
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(5px);
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.24);
+  font-family: 'Monoton', cursive;
+  text-align: center;
+  min-width: 280px;
+}
+
+
+.logout-modal-btns {
+  margin-top: 1.3rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.yes-btn, .no-btn {
+  padding: 0.4rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1.05rem;
+  font-family: 'Monoton', cursive;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 500;
+}
+
+.yes-btn {
+  background: #e96443;
+  color: #fff;
+}
+
+.no-btn {
+  background: #2d3436;
+  color: #fff;
+}
+
+.yes-btn:hover {
+  background: #ff1818;
+}
+.no-btn:hover {
+  background: #636e72;
 }

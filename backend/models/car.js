@@ -11,7 +11,10 @@ const carSchema = new Schema({
   rarity: { type: String, enum: ['Common', 'Rare', 'Super Treasure Hunt'], default: 'Common' },
   price: Number,
   description: String,
-  addedBy: {type: String } // Who added this to DB
+  addedBy: {type: String }, 
+  auc: Number,
+  end: Date
+
 });
 
 module.exports = mongoose.model('Car', carSchema);
