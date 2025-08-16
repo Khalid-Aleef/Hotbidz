@@ -11,7 +11,7 @@ router.get('/:userId', async (req, res) => {
     // Check if each car is in an active auction
     const carsWithAuctionStatus = await Promise.all(cars.map(async (car) => {
       // Find an active auction for the car
-      const auction = await AuctionStore.findOne({ carId: car._id, status: 'open' });
+      const auction = await AuctionStore.findOne({ carId: car._id });
       car.inAuction = auction ? true : false;  // Set inAuction flag
       return car;
     }));

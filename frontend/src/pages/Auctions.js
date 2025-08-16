@@ -9,22 +9,30 @@ const Auctions = () => {
   const [closedAuctions, setClosedAuctions] = useState(new Set()); // To keep track of auctions already closed
 
   // Manage bid form visibility and bid amount
-  const [showBidForm, setShowBidForm] = useState(false); // To show/hide the bid form
-  const [selectedCar, setSelectedCar] = useState(null); // Store selected car
-  const [bidAmount, setBidAmount] = useState(""); // Store the user's bid amount
-  const [bidError, setBidError] = useState(""); // For validation errors related to bid
+  const [showBidForm, setShowBidForm] = useState(false); 
+  const [selectedCar, setSelectedCar] = useState(null); 
+  const [bidAmount, setBidAmount] = useState(""); 
+  const [bidError, setBidError] = useState(""); 
+
+  const userId = localStorage.getItem('userId');  // Get the logged-in user's ID
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/auctions")  // Ensure correct endpoint
+    if (!userId) {
+      setError("You must be logged in to view auction cars.");
+      setLoading(false);
+      return;
+    }
+
+    axios.get(`http://localhost:5000/api/auctions?userId=${userId}`) // Include userId in the request
       .then(res => {
         const auctionData = res.data;
         const sellerPromises = auctionData.map(car =>
           axios.get(`http://localhost:5000/api/users/${car.sellerId}`)
             .then(response => ({
               ...car,
-              sellerName: response.data.name // Assuming response contains the seller's name
+              sellerName: response.data.name // Assuming response contains seller's name
             }))
-            .catch(() => ({ ...car, sellerName: "Unknown" })) // Fallback if seller not found
+            .catch(() => ({ ...car, sellerName: "Unknown" }))
         );
 
         // After all promises resolve, set the state with seller names
@@ -39,18 +47,18 @@ const Auctions = () => {
         setLoading(false);
         console.error("Error fetching auction cars", err);
       });
-  }, []);
+  }, [userId]); // Dependencies: re-run when `userId` changes
 
+  // Calculate remaining time for auction
   const calculateTimeRemaining = (endTime, status, auctionId) => {
     const now = new Date();
     const end = new Date(endTime);
     const timeDiff = end - now;
 
     if (status === 'closed' || timeDiff <= 0) {
-      // Check if the auction is already processed and closed
       if (!closedAuctions.has(auctionId)) {
-        closeAuctionAndRecordPayment(auctionId); // Close the auction if not already done
-        setClosedAuctions(prev => new Set(prev.add(auctionId))); // Mark auction as closed
+        closeAuctionAndRecordPayment(auctionId);
+        setClosedAuctions(prev => new Set(prev.add(auctionId)));
       }
       return "Auction Ended";
     }
@@ -72,27 +80,22 @@ const Auctions = () => {
   };
 
   const handleBidClick = (car) => {
-    // When user clicks "Bid", show the bid form for the specific car
     setSelectedCar(car);
     setBidAmount(car.currentBid + 50); // Default bid to currentBid + minimum increment
-    setShowBidForm(true); // Show the form
+    setShowBidForm(true);
   };
 
   const handleSubmitBid = async (e) => {
     e.preventDefault();
 
-    // Validate the bid amount
     if (parseInt(bidAmount) < selectedCar.currentBid + selectedCar.minIncBid) {
       setBidError(`Bid must be higher than ${selectedCar.currentBid + selectedCar.minIncBid} BDT.`);
       return;
     }
 
     try {
-      // Get userId from localStorage (assumes userId is saved after login)
-      const userId = localStorage.getItem('userId');  // Retrieve the userId from localStorage
-
+      const userId = localStorage.getItem('userId');
       if (!userId) {
-        // If no userId is found, it means the user is not logged in
         setBidError("You need to be logged in to place a bid.");
         return;
       }
@@ -102,16 +105,16 @@ const Auctions = () => {
         bidAmount
       });
 
-      alert(response.data.message); // Show success message
-      setShowBidForm(false); // Close the form after successful bid
+      alert(response.data.message);
+      setShowBidForm(false); 
     } catch (err) {
       setBidError(err.response?.data?.message || "Error placing bid");
     }
   };
 
   const closeBidForm = () => {
-    setShowBidForm(false); // Close the bid form
-    setBidError(""); // Reset error messages
+    setShowBidForm(false);
+    setBidError("");
   };
 
   if (loading) {
@@ -143,13 +146,13 @@ const Auctions = () => {
             <p><b>Current Bid:</b> {car.currentBid} BDT</p>
             <p><b>Seller:</b> {car.sellerName}</p>
 
-            {/* Bid Button to open the form */}
-            <button className="bid-btn" onClick={() => handleBidClick(car)} disabled={car.status === 'closed'}>Bid</button>
+            <button className="bid-btn" onClick={() => handleBidClick(car)} disabled={car.status === 'closed'}>
+              Bid
+            </button>
           </div>
         ))}
       </div>
 
-      {/* Bid Form Modal */}
       {showBidForm && selectedCar && (
         <div className="bid-form-modal">
           <div className="bid-form-modal-content">

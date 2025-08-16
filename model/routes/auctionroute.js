@@ -48,12 +48,17 @@ router.post('/', async (req, res) => {
 // Fetch all auctions or filter by status ('open', 'closed')
 router.get('/', async (req, res) => {
   try {
-    const { status } = req.query; // Accept status as query param, e.g., ?status=open
+    const { status, userId } = req.query; // Accept status and userId as query params, e.g., ?status=open&userId=123
 
     // Create query object for filtering auctions
     const query = {};
     if (status) {
       query.status = status; // If status is provided in query, filter by status
+    }
+
+    // If userId is provided, filter out auctions where the user is the seller
+    if (userId) {
+      query.sellerId = { $ne: userId }; // $ne operator ensures we don't fetch auctions where sellerId matches the userId
     }
 
     const auctions = await AuctionStore.find(query)
