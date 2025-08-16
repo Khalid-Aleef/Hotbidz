@@ -24,7 +24,7 @@
 
 .car-card {
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
   padding: 0.75rem;
@@ -37,14 +37,17 @@
 }
 
 .car-card h3 {
-  font-size: .9rem;        
+  font-family: "Gruppo", sans-serif;
+  font-size: 1rem;        
   margin: 0.2rem 0;
-  font-weight: 300;
+  font-weight: 1000;
 }
 
 .car-card p {
-  font-size: 0.75rem;        
-  margin: 0.1rem 0;         
+  font-family: "Gruppo", sans-serif;
+  font-size: 0.9rem;        
+  margin: 0.1rem 0;   
+  font-weight: 500;      
 }
 
 .car-card:hover {
@@ -74,14 +77,16 @@
   font-size: 0.7rem;
   border: none;
   border-radius: 6px;
-  font-family: 'Monoton', cursive;
-  font-weight: 300;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 500;
   cursor: pointer;
   transition: background 0.22s, color 0.22s;
 }
 
 .auction-btn,
 .car-tile-actions .auction-btn {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 500;
   background: #ffd700;
   color: #3d2600;
 }
@@ -93,6 +98,7 @@
 
 .trade-btn,
 .car-tile-actions .trade-btn {
+  font-weight: 500;
   background: #0d9ddf;
   color: #fff;
 }
@@ -102,3 +108,41 @@
   background: #21b0ff;
 }
 
+/* simple modal */
+.modal-backdrop{
+  position: fixed; inset: 0; 
+  background: rgba(0,0,0,.45);
+  display:flex; align-items:center; justify-content:center;
+  z-index: 2000;
+}
+
+.modal{
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  width: 320px; color:#fff; text-align:left;
+  box-shadow: 0 10px 35px rgba(0,0,0,.35);
+}
+.modal h3{ margin:0 0 .6rem 0; font-weight:400; }
+
+.modal-form{
+  display:flex; flex-direction:column; gap:.6rem;
+}
+.modal-form label{ font-size:.9rem; opacity:.85; }
+.modal-form input{
+  padding:.55rem .7rem; border:none; border-radius:8px;
+  background: rgba(255,255,255,0.18); color:#fff;
+}
+
+.modal-actions{
+  display:flex; justify-content:flex-end; gap:.6rem; margin-top:.4rem;
+}
+.modal-cancel, .modal-submit{
+  padding:.45rem .9rem; border:none; border-radius:8px; cursor:pointer;
+  font-family: 'Monoton', cursive;
+}
+.modal-cancel{ background:#555a; color:#fff; }
+.modal-submit{ background:#f49a1d; color:#fff; }
+.modal-submit:hover{ background:#ffbd5c; }

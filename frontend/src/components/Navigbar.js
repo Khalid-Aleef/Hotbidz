@@ -36,7 +36,7 @@ const Navigbar = () => {
             <Link to="/auctions">Auctions</Link>
           </li>
           <li>
-            <Link to="/my-bids">My Bids</Link>
+            <Link to={userId ? `/mybids/${userId}`: "/mybids"}>My Won Bids</Link>
           </li>
           <li>
             <Link to="/settings">Settings</Link>

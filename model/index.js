@@ -18,10 +18,12 @@ const userRoutes = require('./routes/userroutes');
 const inventoryRoutes = require('./routes/userinventoryroutes');
 const authRoutes = require('./routes/auth');
 const auctionRoutes = require('./routes/auctionroute');
+const paymentRoute = require('./routes/paymentroute'); 
 app.use('/api/auctions', auctionRoutes);
 app.use('/api', authRoutes);
 app.use('/api/users', userRoutes); 
 app.use('/api/inventory', inventoryRoutes);
+app.use('/api/payments', paymentRoute);
 
 
 app.get('/', (req, res) => res.send('Backend is Running'));

@@ -13,7 +13,8 @@ const carSchema = new Schema({
   description: String,
   addedBy: {type: String }, 
   auc: Number,
-  end: Date
+  end: Date,
+  inAuction: { type: Boolean, default: false }, 
 
 });
 

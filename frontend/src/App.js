@@ -36,7 +36,7 @@ function AppWrapper() {
           <Route path="/" element={<AuthPage />} />
           <Route path="/user/:id" element={<UserProfile />} />
           <Route path="/auctions" element={<Auctions />} />
-          <Route path="/mybids" element={<MyBids />} />
+          <Route path="/mybids/:id" element={<MyBids />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/userinventory/:id" element={<Userinventory />} />
           <Route path="/signup" element={<Signup />} />
