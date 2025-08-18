@@ -12,6 +12,7 @@ import Userinventory from "./pages/Userinventory";
 import Signup from "./pages/signup"; 
 import Login from "./pages/login";
 import AuthPage from "./pages/AuthPage";
+import MyAuction from "./pages/myauction";
 
 function AppWrapper() {
   const location = useLocation();
@@ -41,6 +42,7 @@ function AppWrapper() {
           <Route path="/userinventory/:id" element={<Userinventory />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/myauction/:id" element={<MyAuction />} />
         </Routes>
       </div>
     </div>

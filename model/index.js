@@ -19,6 +19,8 @@ const inventoryRoutes = require('./routes/userinventoryroutes');
 const authRoutes = require('./routes/auth');
 const auctionRoutes = require('./routes/auctionroute');
 const paymentRoute = require('./routes/paymentroute'); 
+const myAuctionRoutes = require('./routes/myaucroute');
+app.use('/api/myauctions', myAuctionRoutes);
 app.use('/api/auctions', auctionRoutes);
 app.use('/api', authRoutes);
 app.use('/api/users', userRoutes); 
