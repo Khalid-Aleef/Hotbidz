@@ -72,3 +72,73 @@
 .payment-btn:hover {
   background: #ffbd5c;
 }
+
+/* Modal Overlay */
+.payment-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.payment-modal-content {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 1rem;  /* Reduced padding for smaller modal */
+  width: 90%;
+  max-width: 350px;  /* Set a smaller max-width */
+  color: white;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.payment-modal-content h4 {
+  font-size: 1.2rem;  /* Smaller heading */
+  margin-bottom: 1rem; /* Reduced margin */
+}
+
+.payment-modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;  /* Reduced gap between form elements */
+}
+
+.payment-modal-content input {
+  padding: 0.6rem;  /* Reduced padding for inputs */
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+}
+
+.payment-modal-content button {
+  padding: 0.5rem 1.2rem;  /* Reduced button padding */
+  background-color: #f49a1d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Monoton', cursive;
+  transition: background-color 0.3s ease;
+}
+
+.payment-modal-content button:hover {
+  background-color: #ffbd5c;
+}
+
+/* Error message */
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}

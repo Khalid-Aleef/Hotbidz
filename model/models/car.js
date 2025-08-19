@@ -8,7 +8,7 @@ const carSchema = new Schema({
   modelNumber: String,           
   color: String,
   image: String,                   
-  rarity: { type: String, enum: ['Common', 'Rare', 'Super Treasure Hunt'], default: 'Common' },
+  rarity: { type: String, enum: ['Common', 'Uncommon','Rare', 'Super Treasure Hunt'], default: 'Common' },
   price: Number,
   description: String,
   addedBy: {type: String }, 

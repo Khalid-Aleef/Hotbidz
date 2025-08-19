@@ -6,6 +6,12 @@ const MyBids = () => {
   const [myBids, setMyBids] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedBid, setSelectedBid] = useState(null);
+  const [enteredAmount, setEnteredAmount] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [paymentError, setPaymentError] = useState("");
 
   const userId = localStorage.getItem('userId'); // Assuming the userId is saved in localStorage
 
@@ -28,10 +34,40 @@ const MyBids = () => {
       });
   }, [userId]);
 
-  const handlePayment = (auctionId, bidAmount) => {
-    // Function to handle payment logic
-    alert(`Proceeding to payment for auction: ${auctionId} with bid amount: ${bidAmount}`);
-    // You can redirect or trigger a payment process here
+  const handlePayment = (bid) => {
+    setSelectedBid(bid);
+    setEnteredAmount(bid.bidAmount); // Default bid amount
+    setShowPaymentModal(true); // Show payment modal
+  };
+
+  const handlePaymentSubmit = (e) => {
+    e.preventDefault();
+
+    // Check if entered amount matches the bid amount
+    if (enteredAmount !== selectedBid.bidAmount) {
+      setPaymentError("The entered amount does not match the bid amount.");
+      return;
+    }
+
+    // Check if password and confirm password match
+    if (password !== confirmPassword) {
+      setPaymentError("Passwords do not match.");
+      return;
+    }
+
+    // Send the data to the backend to validate (password and amount)
+    axios.post(`http://localhost:5000/api/val/validate`, {
+      auctionId: selectedBid.auctionId._id,
+      enteredAmount,
+      password
+    })
+      .then(response => {
+        alert("Payment successful!");
+        setShowPaymentModal(false); // Close the modal
+      })
+      .catch(err => {
+        setPaymentError(err.response?.data?.message || "Error processing payment");
+      });
   };
 
   if (loading) {
@@ -64,12 +100,62 @@ const MyBids = () => {
               <p><b>Status:</b> {payment.paymentStatus}</p>
               <button
                 className="payment-btn"
-                onClick={() => handlePayment(payment.auctionId._id, payment.bidAmount)}
+                onClick={() => handlePayment(payment)}
               >
                 Pay Now
               </button>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <div className="payment-modal-overlay">
+          <div className="payment-modal-content">
+            <h4>Complete Your Payment</h4>
+            <form onSubmit={handlePaymentSubmit}>
+              <label>
+                Amount:
+                <input
+                  type="number"
+                  value={enteredAmount}
+                  disabled
+                  readOnly
+                />
+              </label>
+              <label>
+                Enter Amount:
+                <input
+                  type="number"
+                  value={enteredAmount}
+                  onChange={(e) => setEnteredAmount(e.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                Enter Password:
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                Re-enter Password:
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </label>
+              {paymentError && <p className="error">{paymentError}</p>}
+              <button type="submit">Pay Now</button>
+              <button type="button" onClick={() => setShowPaymentModal(false)}>Cancel</button>
+            </form>
+          </div>
         </div>
       )}
     </div>

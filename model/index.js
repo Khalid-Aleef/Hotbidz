@@ -20,6 +20,10 @@ const authRoutes = require('./routes/auth');
 const auctionRoutes = require('./routes/auctionroute');
 const paymentRoute = require('./routes/paymentroute'); 
 const myAuctionRoutes = require('./routes/myaucroute');
+const payUpdateRoute = require('./routes/payupdate');
+
+
+app.use('/api/val', payUpdateRoute);
 app.use('/api/myauctions', myAuctionRoutes);
 app.use('/api/auctions', auctionRoutes);
 app.use('/api', authRoutes);
