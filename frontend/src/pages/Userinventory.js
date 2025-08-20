@@ -22,13 +22,21 @@ const UserInventory = () => {
   });
   const [error, setError] = useState('');
 
+  // NEW: search and rarity filter
+  const [search, setSearch] = useState('');
+  const [rarity, setRarity] = useState('');
+
+  // Fetch cars when component mounts OR when search/rarity changes
   useEffect(() => {
     if (!id) return;
+
     axios
-      .get(`http://localhost:5000/api/inventory/${id}`)
+      .get(`http://localhost:5000/api/inventory/${id}`, {
+        params: { search, rarity },
+      })
       .then((res) => setCars(res.data))
       .catch((err) => console.error('Error loading inventory', err));
-  }, [id]);
+  }, [id, search, rarity]);
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -68,7 +76,7 @@ const UserInventory = () => {
   // Submit Add Car form
   const handleAddCarSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted ✅'); // Debug
+    console.log('Form Submitted ');
     const userId = localStorage.getItem('userId');
     if (!userId) {
       setError('User not logged in');
@@ -81,24 +89,21 @@ const UserInventory = () => {
         auc: 0,
         inAuction: false,
       });
-      alert("Car added to inventory!");
+      alert('Car added to inventory!');
       setForm({
-      name: "",
-      series: "",
-      yearReleased: "",
-      color: "",
-      image: "",
-      rarity: "",
-      price: "",
-      description: "",
-      addedBy: "",
-      auc: "",
-      inAuction: false,
-    });
+        name: '',
+        series: '',
+        yearReleased: '',
+        color: '',
+        image: '',
+        rarity: 'Common',
+        price: '',
+        description: '',
+      });
       setShowAddCarForm(false);
       setCars((prev) => [...prev, res.data]);
     } catch (err) {
-      console.error("Error adding car:", err.response?.data || err.message);
+      console.error('Error adding car:', err.response?.data || err.message);
       setError(err.response?.data?.message || 'Error adding car');
     }
   };
@@ -106,7 +111,24 @@ const UserInventory = () => {
   return (
     <>
       <div className="inventory">
-        <h2>My Hot Wheels Collection</h2>
+      <h2>My Hot Wheels Collection</h2>
+
+      {/* Search and Rarity Filter */}
+      <div className="inventory-filter">
+        <input
+          type="text"
+          placeholder="Search cars..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select value={rarity} onChange={(e) => setRarity(e.target.value)}>
+          <option value="">All Rarities</option>
+          <option value="Common">Common</option>
+          <option value="Uncommon">Uncommon</option>
+          <option value="Rare">Rare</option>
+          <option value="Super Treasure Hunt">Super Treasure Hunt</option>
+        </select>
+      </div>
 
         {/* Button to open Add Car form */}
         <button className="add-car-btn" onClick={openAddCarForm}>
@@ -120,10 +142,10 @@ const UserInventory = () => {
             <div key={car._id} className="car-card">
               {car.inAuction && <div className="auction-badge">In Auction</div>}
 
-              <img src={car.image} alt={car.carName || car.name} width="200" />
-              <h3>{car.carName || car.name}</h3>
+              <img src={car.image} alt={car.name} width="200" />
+              <h3>{car.name}</h3>
               <p>Series: {car.series}</p>
-              <p>Year: {car.yearReleased || car.year}</p>
+              <p>Year: {car.yearReleased}</p>
               <p>Rarity: {car.rarity}</p>
               <p>Price: {car.price} BDT</p>
               <p>{car.description}</p>
@@ -158,8 +180,7 @@ const UserInventory = () => {
               <input
                 type="text"
                 name="name"
-               
-                value={form.carName}
+                value={form.name}
                 onChange={handleInputChange}
                 required
               />
@@ -223,13 +244,9 @@ const UserInventory = () => {
                 required
               />
               <div className="modal-actions">
-                <button 
-                    type="submit" 
-                    className="modal-submit"
-                    onClick={() => console.log("Submit button clicked")}  
-                  >
-                    Add Car
-                  </button>
+                <button type="submit" className="modal-submit">
+                  Add Car
+                </button>
                 <button
                   type="button"
                   className="modal-cancel"
@@ -254,7 +271,7 @@ const UserInventory = () => {
           }}
         >
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Start Auction for {auctionFor.carName || auctionFor.name}</h3>
+            <h3>Start Auction for {auctionFor.name}</h3>
             <form onSubmit={submitAuction} className="modal-form">
               <label>Starting bid (BDT)</label>
               <input

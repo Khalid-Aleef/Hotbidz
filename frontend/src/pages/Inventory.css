@@ -7,9 +7,11 @@
 }
 
 .inventory h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  font-weight: 300;
+  font-size: 1.2rem; /* smaller size */
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: 1rem;
+  margin-left: 1rem; /* some left padding */
 }
 
 .inventory-grid {
@@ -253,3 +255,60 @@
   background: #e53935;  /* Darker red on hover */
   transform: scale(1.05); /* Slight scaling effect on hover */
 }
+
+/* Container for search bar and rarity filter only */
+.inventory-filter {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-top: -2.9rem;
+  flex-wrap: wrap;
+}
+
+/* Search input */
+.inventory-filter input[type="text"] {
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.inventory-filter input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.inventory-filter input[type="text"]:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Rarity dropdown */
+.inventory-filter select {
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.18);
+  color: #979693; /* change to gold, you can pick any color */
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+
+
+.inventory-filter select:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Responsive adjustment */
+@media (max-width: 600px) {
+  .inventory-filter {
+    justify-content: center;
+  }
+}
+
