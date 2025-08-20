@@ -1,7 +1,7 @@
 .inventory {
   padding: 2rem;
   text-align: center;
-  color: white;  
+  color: white;
   font-family: 'Monoton', cursive;
   font-weight: 300;
 }
@@ -12,11 +12,10 @@
   font-weight: 300;
 }
 
-
 .inventory-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1rem; 
+  gap: 1rem;
   justify-content: center;
   padding: 1rem;
   box-sizing: border-box;
@@ -33,21 +32,21 @@
   transition: transform 0.2s ease;
   max-width: 180px;
   margin: auto;
-  padding: 0.6rem; 
+  padding: 0.6rem;
 }
 
 .car-card h3 {
   font-family: "Gruppo", sans-serif;
-  font-size: 1rem;        
+  font-size: 1rem;
   margin: 0.2rem 0;
   font-weight: 1000;
 }
 
 .car-card p {
   font-family: "Gruppo", sans-serif;
-  font-size: 0.9rem;        
-  margin: 0.1rem 0;   
-  font-weight: 500;      
+  font-size: 0.9rem;
+  margin: 0.1rem 0;
+  font-weight: 500;
 }
 
 .car-card:hover {
@@ -108,41 +107,149 @@
   background: #21b0ff;
 }
 
+/* Add to Inventory Button */
+.add-car-btn {
+  background: #0d9ddf;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  font-family: 'Monoton', cursive;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-car-btn:hover {
+  background: #21b0ff;
+}
+
 /* simple modal */
-.modal-backdrop{
-  position: fixed; inset: 0; 
-  background: rgba(0,0,0,.45);
-  display:flex; align-items:center; justify-content:center;
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 2000;
 }
 
-.modal{
-  background: rgba(255,255,255,0.10);
+.modal {
+  background: rgba(255, 255, 255, 0.10);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
-  padding: 1.2rem 1.4rem;
-  width: 320px; color:#fff; text-align:left;
-  box-shadow: 0 10px 35px rgba(0,0,0,.35);
-}
-.modal h3{ margin:0 0 .6rem 0; font-weight:400; }
-
-.modal-form{
-  display:flex; flex-direction:column; gap:.6rem;
-}
-.modal-form label{ font-size:.9rem; opacity:.85; }
-.modal-form input{
-  padding:.55rem .7rem; border:none; border-radius:8px;
-  background: rgba(255,255,255,0.18); color:#fff;
+  padding: 1rem;
+  width: 300px;
+  color: #fff;
+  text-align: left;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+  max-height: 400px;
+  overflow-y: auto;
 }
 
-.modal-actions{
-  display:flex; justify-content:flex-end; gap:.6rem; margin-top:.4rem;
+.modal h3 {
+  margin: 0 0 0.6rem 0;
+  font-weight: 400;
 }
-.modal-cancel, .modal-submit{
-  padding:.45rem .9rem; border:none; border-radius:8px; cursor:pointer;
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.modal-form label {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+  padding: 0.55rem 0.7rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.modal-cancel,
+.modal-submit {
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
   font-family: 'Monoton', cursive;
 }
-.modal-cancel{ background:#555a; color:#fff; }
-.modal-submit{ background:#f49a1d; color:#fff; }
-.modal-submit:hover{ background:#ffbd5c; }
+
+.modal-cancel {
+  background: #555a;
+  color: #fff;
+}
+
+.modal-submit {
+  background: #f49a1d;
+  color: #fff;
+}
+
+.modal-submit:hover {
+  background: #ffbd5c;
+}
+/* Change the font color for options in the Rarity select dropdown */
+.modal-form select[name="rarity"] {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;  /* White font color */
+  border-radius: 8px;
+  padding: 0.5rem;
+  border: none;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Change the colors of the options in the Rarity dropdown */
+.modal-form select[name="rarity"] option {
+  background: rgba(0, 0, 0, 0.2);  /* Darker background for options */
+  color: #fff;  /* White font color for options */
+}
+
+/* Add Car Button (New Color) */
+.modal-submit {
+  background: #4CAF50;  /* Green background */
+  color: white;
+  padding: 0.8rem 1.5rem;
+  font-family: 'Monoton', cursive;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-submit:hover {
+  background: #45a049;  /* Darker green on hover */
+  transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+/* Cancel Button (New Color) */
+.modal-cancel {
+  background: #f44336;  /* Red background */
+  color: white;
+  padding: 0.8rem 1.5rem;
+  font-family: 'Monoton', cursive;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-cancel:hover {
+  background: #e53935;  /* Darker red on hover */
+  transform: scale(1.05); /* Slight scaling effect on hover */
+}
