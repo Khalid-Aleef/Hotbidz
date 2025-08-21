@@ -13,7 +13,7 @@ const MyBids = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [paymentError, setPaymentError] = useState("");
 
-  const userId = localStorage.getItem('userId'); // Assuming the userId is saved in localStorage
+  const userId = localStorage.getItem('userId'); 
 
   useEffect(() => {
     if (!userId) {
@@ -22,10 +22,10 @@ const MyBids = () => {
       return;
     }
 
-    // Fetch the payments where the user is the highest bidder
+    
     axios.get(`http://localhost:5000/api/payments/mybids/${userId}`)
       .then(res => {
-        setMyBids(res.data); // Assuming the response returns an array of bids
+        setMyBids(res.data); 
         setLoading(false);
       })
       .catch(err => {
@@ -36,26 +36,26 @@ const MyBids = () => {
 
   const handlePayment = (bid) => {
     setSelectedBid(bid);
-    setEnteredAmount(bid.bidAmount); // Default bid amount
-    setShowPaymentModal(true); // Show payment modal
+    setEnteredAmount(bid.bidAmount); 
+    setShowPaymentModal(true); 
   };
 
   const handlePaymentSubmit = (e) => {
     e.preventDefault();
 
-    // Check if entered amount matches the bid amount
+    
     if (enteredAmount !== selectedBid.bidAmount) {
       setPaymentError("The entered amount does not match the bid amount.");
       return;
     }
 
-    // Check if password and confirm password match
+    
     if (password !== confirmPassword) {
       setPaymentError("Passwords do not match.");
       return;
     }
 
-    // Send the data to the backend to validate (password and amount)
+    
     axios.post(`http://localhost:5000/api/val/validate`, {
       auctionId: selectedBid.auctionId._id,
       enteredAmount,
@@ -63,7 +63,7 @@ const MyBids = () => {
     })
       .then(response => {
         alert("Payment successful!");
-        setShowPaymentModal(false); // Close the modal
+        setShowPaymentModal(false); 
       })
       .catch(err => {
         setPaymentError(err.response?.data?.message || "Error processing payment");
@@ -89,7 +89,7 @@ const MyBids = () => {
             <div key={payment._id} className="bid-card">
               <h3>{payment.auctionId.carName}</h3>
 
-              {/* Displaying car image */}
+              
               <img
                 src={payment.auctionId.image}
                 alt={payment.auctionId.carName}
@@ -109,7 +109,7 @@ const MyBids = () => {
         </div>
       )}
 
-      {/* Payment Modal */}
+      {/* modal for payment */}
       {showPaymentModal && (
         <div className="payment-modal-overlay">
           <div className="payment-modal-content">

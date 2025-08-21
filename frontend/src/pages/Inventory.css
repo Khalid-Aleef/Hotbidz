@@ -7,11 +7,11 @@
 }
 
 .inventory h2 {
-  font-size: 1.2rem; /* smaller size */
+  font-size: 1.2rem; 
   font-weight: 400;
   text-align: left;
   margin-bottom: 1rem;
-  margin-left: 1rem; /* some left padding */
+  margin-left: 1rem; 
 }
 
 .inventory-grid {
@@ -109,7 +109,7 @@
   background: #21b0ff;
 }
 
-/* Add to Inventory Button */
+
 .add-car-btn {
   background: #0d9ddf;
   color: white;
@@ -125,7 +125,7 @@
   background: #21b0ff;
 }
 
-/* simple modal */
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -205,10 +205,10 @@
 .modal-submit:hover {
   background: #ffbd5c;
 }
-/* Change the font color for options in the Rarity select dropdown */
+
 .modal-form select[name="rarity"] {
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;  /* White font color */
+  color: #fff;  
   border-radius: 8px;
   padding: 0.5rem;
   border: none;
@@ -216,15 +216,15 @@
   transition: background-color 0.3s ease;
 }
 
-/* Change the colors of the options in the Rarity dropdown */
+
 .modal-form select[name="rarity"] option {
-  background: rgba(0, 0, 0, 0.2);  /* Darker background for options */
-  color: #fff;  /* White font color for options */
+  background: rgba(0, 0, 0, 0.2);  
+  color: #fff; 
 }
 
-/* Add Car Button (New Color) */
+
 .modal-submit {
-  background: #4CAF50;  /* Green background */
+  background: #4CAF50;  
   color: white;
   padding: 0.8rem 1.5rem;
   font-family: 'Monoton', cursive;
@@ -235,13 +235,13 @@
 }
 
 .modal-submit:hover {
-  background: #45a049;  /* Darker green on hover */
-  transform: scale(1.05); /* Slight scaling effect on hover */
+  background: #45a049;  
+  transform: scale(1.05); 
 }
 
-/* Cancel Button (New Color) */
+
 .modal-cancel {
-  background: #f44336;  /* Red background */
+  background: #f44336; 
   color: white;
   padding: 0.8rem 1.5rem;
   font-family: 'Monoton', cursive;
@@ -252,11 +252,11 @@
 }
 
 .modal-cancel:hover {
-  background: #e53935;  /* Darker red on hover */
-  transform: scale(1.05); /* Slight scaling effect on hover */
+  background: #e53935;  
+  transform: scale(1.05); 
 }
 
-/* Container for search bar and rarity filter only */
+
 .inventory-filter {
   display: flex;
   gap: 0.6rem;
@@ -267,7 +267,7 @@
   flex-wrap: wrap;
 }
 
-/* Search input */
+/* Search part */
 .inventory-filter input[type="text"] {
   padding: 0.5rem 0.8rem;
   border-radius: 8px;
@@ -287,13 +287,13 @@
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Rarity dropdown */
+/* search by rarity */
 .inventory-filter select {
   padding: 0.5rem 0.8rem;
   border-radius: 8px;
   border: none;
   background: rgba(255, 255, 255, 0.18);
-  color: #979693; /* change to gold, you can pick any color */
+  color: #979693; 
   font-size: 0.9rem;
   transition: background 0.2s ease;
 }
@@ -305,7 +305,7 @@
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Responsive adjustment */
+
 @media (max-width: 600px) {
   .inventory-filter {
     justify-content: center;

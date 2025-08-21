@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const Payment = require('../models/payment');
 
-// Route to get payments for a specific user (where the user is the highest bidder)
+
 router.get('/mybids/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
 
-    // Find payments where the user is the highest bidder
+    
     const payments = await Payment.find({ highestBidderId: userId })
-      .populate('auctionId', 'carName image')  // Populate the auction info like car name and image
+      .populate('auctionId', 'carName image')  
       .exec();
 
     if (payments.length === 0) {

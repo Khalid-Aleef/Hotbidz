@@ -5,7 +5,7 @@ import "./Navigbar.css";
 const Navigbar = () => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
-  const location = useLocation(); // <-- get current route
+  const location = useLocation(); 
   const [showModal, setShowModal] = useState(false);
 
   const handleLogout = () => {
@@ -22,7 +22,7 @@ const Navigbar = () => {
     setShowModal(false);
   };
 
-  // helper function to check if the link is active
+  
   const isActive = (path) => location.pathname === path;
 
   return (

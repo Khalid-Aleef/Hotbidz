@@ -22,11 +22,11 @@ const UserInventory = () => {
   });
   const [error, setError] = useState('');
 
-  // NEW: search and rarity filter
+  
   const [search, setSearch] = useState('');
   const [rarity, setRarity] = useState('');
 
-  // Fetch cars when component mounts OR when search/rarity changes
+  
   useEffect(() => {
     if (!id) return;
 
@@ -38,17 +38,17 @@ const UserInventory = () => {
       .catch((err) => console.error('Error loading inventory', err));
   }, [id, search, rarity]);
 
-  // Handle form input changes
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  // Open/close the Add Car form modal
+  
   const openAddCarForm = () => setShowAddCarForm(true);
   const closeAddCarForm = () => setShowAddCarForm(false);
 
-  // Open/close Auction modal
+  
   const openAuction = (car) => {
     setAuctionFor(car);
     setStartingBid('');
@@ -56,7 +56,7 @@ const UserInventory = () => {
   };
   const closeAuction = () => setAuctionFor(null);
 
-  // Submit auction
+  
   const submitAuction = async (e) => {
     e.preventDefault();
     try {
@@ -73,7 +73,7 @@ const UserInventory = () => {
     }
   };
 
-  // Submit Add Car form
+  
   const handleAddCarSubmit = async (e) => {
     e.preventDefault();
     console.log('Form Submitted ');
@@ -113,7 +113,7 @@ const UserInventory = () => {
       <div className="inventory">
       <h2>My Hot Wheels Collection</h2>
 
-      {/* Search and Rarity Filter */}
+      
       <div className="inventory-filter">
         <input
           type="text"
@@ -130,7 +130,7 @@ const UserInventory = () => {
         </select>
       </div>
 
-        {/* Button to open Add Car form */}
+        
         <button className="add-car-btn" onClick={openAddCarForm}>
           Add to Inventory
         </button>
@@ -163,7 +163,7 @@ const UserInventory = () => {
         </div>
       </div>
 
-      {/* Add Car Form Modal */}
+      {/* modal for add to inventory  */}
       {showAddCarForm && (
         <div
           className="modal-backdrop"
@@ -260,7 +260,7 @@ const UserInventory = () => {
         </div>
       )}
 
-      {/* Auction Modal */}
+      {/* modal for auction */}
       {auctionFor && (
         <div
           className="modal-backdrop"

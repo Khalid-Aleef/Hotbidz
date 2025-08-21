@@ -1,11 +1,11 @@
-// controllers/bidController.js
-const AuctionStore = require('../models/auction_store');  // Import AuctionStore model
+
+const AuctionStore = require('../models/auction_store');  
 
 exports.placeBid = async (req, res) => {
-  const { auctionId } = req.params;  // Auction ID from the URL
-  const { userId, bidAmount } = req.body;  // User's ID and the bid amount from the request body
+  const { auctionId } = req.params;  
+  const { userId, bidAmount } = req.body;  
 
-  console.log("Received bid request:", { auctionId, userId, bidAmount });  // Log the request
+  console.log("Received bid request:", { auctionId, userId, bidAmount });  
 
   try {
     const auction = await AuctionStore.findById(auctionId);
@@ -14,20 +14,20 @@ exports.placeBid = async (req, res) => {
       return res.status(404).json({ message: 'Auction not found' });
     }
 
-    // Check if the auction is open
+    
     if (auction.status === 'closed') {
       console.log("Auction is closed");
       return res.status(400).json({ message: 'Auction is closed, cannot place bid.' });
     }
 
-    // Check if the bid is valid
+    
     const minBid = auction.currentBid + auction.minIncBid;
     if (bidAmount < minBid) {
       console.log(`Bid too low. Must be at least ${minBid}`);
       return res.status(400).json({ message: `Bid must be at least ${minBid} BDT.` });
     }
 
-    // Update the auction with the new bid
+    
     auction.currentBid = bidAmount;
     auction.highestBidder = userId;
 

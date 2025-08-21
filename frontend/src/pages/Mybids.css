@@ -73,7 +73,7 @@
   background: #ffbd5c;
 }
 
-/* Modal Overlay */
+
 .payment-modal-overlay {
   position: fixed;
   top: 0;
@@ -87,32 +87,32 @@
   z-index: 1000;
 }
 
-/* Modal Content */
+
 .payment-modal-content {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 10px;
-  padding: 1rem;  /* Reduced padding for smaller modal */
+  padding: 1rem;  
   width: 90%;
-  max-width: 350px;  /* Set a smaller max-width */
+  max-width: 350px;  
   color: white;
   text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .payment-modal-content h4 {
-  font-size: 1.2rem;  /* Smaller heading */
-  margin-bottom: 1rem; /* Reduced margin */
+  font-size: 1.2rem;  
+  margin-bottom: 1rem; 
 }
 
 .payment-modal-content form {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;  /* Reduced gap between form elements */
+  gap: 0.8rem;  
 }
 
 .payment-modal-content input {
-  padding: 0.6rem;  /* Reduced padding for inputs */
+  padding: 0.6rem;  
   background-color: rgba(255, 255, 255, 0.1);
   border: none;
   border-radius: 8px;
@@ -121,7 +121,7 @@
 }
 
 .payment-modal-content button {
-  padding: 0.5rem 1.2rem;  /* Reduced button padding */
+  padding: 0.5rem 1.2rem;  
   background-color: #f49a1d;
   color: white;
   border: none;
@@ -136,7 +136,7 @@
   background-color: #ffbd5c;
 }
 
-/* Error message */
+
 .error {
   color: red;
   font-size: 0.9rem;

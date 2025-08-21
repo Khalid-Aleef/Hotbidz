@@ -3,10 +3,10 @@ const router = express.Router();
 const Car = require('../models/car');
 const AuctionStore = require('../models/auction_store');
 const bidController = require('../controllers/bidController');  
-const auctionController = require('../controllers/auctionController'); // Import the placeBid controller
+const auctionController = require('../controllers/auctionController'); 
 
-// POST /api/auction-store/start
-// body: { carId, sellerId, startingBid, endISO }
+
+
 router.post('/', async (req, res) => {
   try {
     const { carId, sellerId, startingBid, endISO } = req.body;
@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     const car = await Car.findById(carId);
     if (!car) return res.status(404).json({ message: 'Car not found' });
 
-    // (optional) disallow duplicates if already in auction
+    
     const existing = await AuctionStore.findOne({ carId, status: 'open' });
     if (existing) return res.status(400).json({ message: 'This car is already in an open auction' });
 
@@ -44,26 +44,25 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/auction-store
-// Fetch all auctions or filter by status ('open', 'closed')
+
 router.get('/', async (req, res) => {
   try {
-    const { status, userId } = req.query; // Accept status and userId as query params, e.g., ?status=open&userId=123
+    const { status, userId } = req.query; 
 
-    // Create query object for filtering auctions
+    
     const query = {};
     if (status) {
-      query.status = status; // If status is provided in query, filter by status
+      query.status = status; 
     }
 
-    // If userId is provided, filter out auctions where the user is the seller
+    
     if (userId) {
-      query.sellerId = { $ne: userId }; // $ne operator ensures we don't fetch auctions where sellerId matches the userId
+      query.sellerId = { $ne: userId }; 
     }
 
     const auctions = await AuctionStore.find(query)
-      .sort({ end: -1 }) // Sort by end time in descending order
-      .populate('carId', 'carName image'); // Populate car details if needed
+      .sort({ end: -1 }) 
+      .populate('carId', 'carName image'); 
 
     return res.json(auctions);
   } catch (err) {
@@ -72,10 +71,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/auction-store/bid/:auctionId
-// Place a bid for an auction
+
+
 router.post('/bid/:auctionId', bidController.placeBid);
 router.post('/end/:auctionId', auctionController.endAuctionAndRecordPayment); 
-  // Add this route for placing a bid
+  
 
 module.exports = router;

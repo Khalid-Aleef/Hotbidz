@@ -6,15 +6,15 @@ const Auctions = () => {
   const [auctionCars, setAuctionCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [closedAuctions, setClosedAuctions] = useState(new Set()); // To keep track of auctions already closed
+  const [closedAuctions, setClosedAuctions] = useState(new Set()); 
 
-  // Manage bid form visibility and bid amount
+  
   const [showBidForm, setShowBidForm] = useState(false); 
   const [selectedCar, setSelectedCar] = useState(null); 
   const [bidAmount, setBidAmount] = useState(""); 
   const [bidError, setBidError] = useState(""); 
 
-  const userId = localStorage.getItem('userId');  // Get the logged-in user's ID
+  const userId = localStorage.getItem('userId');  
 
   useEffect(() => {
     if (!userId) {
@@ -23,19 +23,19 @@ const Auctions = () => {
       return;
     }
 
-    axios.get(`http://localhost:5000/api/auctions?userId=${userId}`) // Include userId in the request
+    axios.get(`http://localhost:5000/api/auctions?userId=${userId}`) 
       .then(res => {
         const auctionData = res.data;
         const sellerPromises = auctionData.map(car =>
           axios.get(`http://localhost:5000/api/users/${car.sellerId}`)
             .then(response => ({
               ...car,
-              sellerName: response.data.name // Assuming response contains seller's name
+              sellerName: response.data.name 
             }))
             .catch(() => ({ ...car, sellerName: "Unknown" }))
         );
 
-        // After all promises resolve, set the state with seller names
+       
         Promise.all(sellerPromises)
           .then(carsWithSeller => {
             setAuctionCars(carsWithSeller);
@@ -47,9 +47,9 @@ const Auctions = () => {
         setLoading(false);
         console.error("Error fetching auction cars", err);
       });
-  }, [userId]); // Dependencies: re-run when `userId` changes
+  }, [userId]); 
 
-  // Calculate remaining time for auction
+  
   const calculateTimeRemaining = (endTime, status, auctionId) => {
     const now = new Date();
     const end = new Date(endTime);
@@ -81,7 +81,7 @@ const Auctions = () => {
 
   const handleBidClick = (car) => {
     setSelectedCar(car);
-    setBidAmount(car.currentBid + 50); // Default bid to currentBid + minimum increment
+    setBidAmount(car.currentBid + 50);
     setShowBidForm(true);
   };
 

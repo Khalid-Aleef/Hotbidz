@@ -17,13 +17,13 @@ const Login = () => {
       alert(res.data.message);
       localStorage.setItem('userId', res.data.userId);
       setShowSplash(true);
-      // Play sound
+      
       const audio = new Audio(process.env.PUBLIC_URL + '/car.mp3');
       audio.play();
       setTimeout(() => {
         setShowSplash(false);
         navigate(`/userinventory/${res.data.userId}`);
-      }, 1000); // 1.8 seconds splash
+      }, 1000); 
     } catch (err) {
       alert(err.response?.data?.message || 'Login failed');
     }

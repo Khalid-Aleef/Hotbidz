@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
+
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
@@ -20,7 +20,7 @@ const auctionRoutes = require('./routes/auctionroute');
 const paymentRoute = require('./routes/paymentroute'); 
 const myAuctionRoutes = require('./routes/myaucroute');
 const payUpdateRoute = require('./routes/payupdate');
-const carUpdateRoute = require('./routes/carupdate'); // Import car update route
+const carUpdateRoute = require('./routes/carupdate'); 
 
 // Use routes
 app.use('/api/val', payUpdateRoute);
@@ -30,7 +30,7 @@ app.use('/api', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/payments', paymentRoute);
-app.use('/api/carup', carUpdateRoute); // Use the new car update route for adding a car
+app.use('/api/carup', carUpdateRoute); 
 
 app.get('/', (req, res) => res.send('Backend is Running'));
 

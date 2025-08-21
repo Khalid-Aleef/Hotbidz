@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const AuctionStore = require('../models/auction_store'); // Adjust path if needed
+const AuctionStore = require('../models/auction_store'); 
 
-// GET /api/myauctions?userId=123
+
 router.get('/', async (req, res) => {
   try {
-    const { userId } = req.query; // Only need userId
+    const { userId } = req.query; 
 
     if (!userId) {
       return res.status(400).json({ message: 'userId is required' });
     }
 
-    // Fetch all auctions where the user is the seller
+    
     const myAuctions = await AuctionStore.find({ sellerId: userId })
-      .sort({ end: -1 }) // Sort by end time descending
-      .populate('carId', 'carName image'); // Include car details
+      .sort({ end: -1 }) 
+      .populate('carId', 'carName image'); 
 
     return res.json(myAuctions);
 

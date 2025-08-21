@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const paymentController = require('../controllers/paymentController');  // Import your controller
+const paymentController = require('../controllers/paymentController');  
 
-// Route to handle payment validation
+
 router.post('/validate', paymentController.validatePayment);
 
 module.exports = router;
