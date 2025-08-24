@@ -4,6 +4,8 @@ import axios from "axios";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import Navigbar from "./components/Navigbar";
+import Chatbot from "./components/Chatbot";   // ✅ Import Chatbot
+
 import UserProfile from "./pages/UserProfile";
 import Auctions from "./pages/Auctions";
 import MyBids from "./pages/Mybids";
@@ -24,7 +26,7 @@ function AppWrapper() {
       .catch(err => setMessage("API error"));
   }, []);
 
-  
+  // Routes where we don’t want the navbar
   const hideNavbarRoutes = ["/"];
   const hideNavbar = hideNavbarRoutes.includes(location.pathname);
 
@@ -45,6 +47,9 @@ function AppWrapper() {
           <Route path="/myauction/:id" element={<MyAuction />} />
         </Routes>
       </div>
+
+      {/* ✅ Chatbot is always visible */}
+      {!hideNavbar && <Chatbot />}
     </div>
   );
 }

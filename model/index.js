@@ -21,6 +21,7 @@ const paymentRoute = require('./routes/paymentroute');
 const myAuctionRoutes = require('./routes/myaucroute');
 const payUpdateRoute = require('./routes/payupdate');
 const carUpdateRoute = require('./routes/carupdate'); 
+const chatbotRoute = require("./routes/chatbotRoute");
 
 // Use routes
 app.use('/api/val', payUpdateRoute);
@@ -31,6 +32,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/payments', paymentRoute);
 app.use('/api/carup', carUpdateRoute); 
+app.use("/api/chatbot", chatbotRoute);
 
 app.get('/', (req, res) => res.send('Backend is Running'));
 
