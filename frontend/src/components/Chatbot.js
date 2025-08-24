@@ -11,7 +11,7 @@ function Chatbot() {
   const sendMessage = async () => {
     if (!input) return;
 
-    // Add user message
+    
     const newMessage = { sender: "user", text: input };
     setMessages([...messages, newMessage]);
 
@@ -33,36 +33,36 @@ function Chatbot() {
     setIsOpen(!isOpen);
   };
 
-  // Handle "Enter" key press to send message
+  
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       sendMessage();
     }
   };
 
-  // Scroll to the bottom of the messages container when new messages are added
+  
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]); // Only run this effect when messages change
+  }, [messages]); 
 
   return (
     <div>
-      {/* Button to toggle chatbot visibility */}
+      
       <button
         className={`chatbot-toggle-btn ${isOpen ? "close" : "open"}`}
         onClick={toggleChatbot}
       >
         {isOpen ? (
           <img
-            src="/cross.png" // Replace with your close icon path
+            src="/cross.png" 
             alt="Close Chatbot"
             className="chatbot-toggle-img"
           />
         ) : (
           <img
-            src="/chatbot.png" // Replace with your open icon path
+            src="/chatbot.png" 
             alt="Open Chatbot"
             className="chatbot-toggle-img"
           />
@@ -95,7 +95,7 @@ function Chatbot() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown} // Listen for the "Enter" key press
+              onKeyDown={handleKeyDown} 
               placeholder="Ask about Hot Wheels..."
               className="chatbot-input"
             />

@@ -10,10 +10,12 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 .chatbot-toggle-img {
-  width: 50px; /* Adjust size as needed */
+  width: 50px; 
   height: 50px;
 }
-
+.chatbot-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.5); 
+}
 
 
 .chatbot-container {
