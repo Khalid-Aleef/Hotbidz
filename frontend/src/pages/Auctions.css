@@ -1,3 +1,4 @@
+
 .auction-container {
   padding: 2rem;
   color: white;
@@ -5,9 +6,60 @@
   text-align: center;
 }
 
+
+.auction-filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.auction-filters input[type="text"] {
+  width: 260px;
+  max-width: 80%;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(6px);
+  color: white;
+  font-size: 0.95rem;
+  font-family: 'Monoton', cursive;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.25);
+  transition: box-shadow 0.2s ease;
+}
+
+.auction-filters input[type="text"]:focus {
+  box-shadow: 0 0 8px #ffd700;
+}
+
+.auction-filters select {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(3px);
+  color: rgb(198, 192, 192);
+  font-size: 0.9rem;
+  font-family: 'Monoton', cursive;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.auction-filters select:focus {
+  box-shadow: 0 0 8px #0d9ddf;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+
 .auction-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
   justify-content: center;
   padding: 1rem;
@@ -19,16 +71,16 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
-  padding: 0.6rem;
+  padding: 0.8rem;
   text-align: center;
   box-shadow: 0 4px 14px rgba(0,0,0,0.25);
   transition: transform 0.2s ease;
-  max-width: 180px;
+  max-width: 220px;
   margin: auto;
 }
 
 .auction-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 .auction-img {
@@ -39,50 +91,34 @@
 }
 
 .auction-card h3 {
-  font-size: .9rem;
+  font-size: 1rem;
+  margin: 0.3rem 0;
+  font-weight: 400;
+}
+
+.auction-card p {
+  font-size: 0.8rem;
   margin: 0.2rem 0;
   font-weight: 300;
 }
 
-.auction-card p {
-  font-size: 0.75rem;
-  margin: 0.1rem 0;
-  font-weight: 300;
-}
 
-.auction-actions {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-top: 0.5rem;
-}
-
-.bid-btn,
-.auction-trade-btn {
-  padding: 0.3rem 0.9rem;
-  font-size: 0.7rem;
+.bid-btn {
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
   border: none;
   border-radius: 6px;
   font-family: 'Monoton', cursive;
   font-weight: 300;
   cursor: pointer;
-  transition: background 0.22s, color 0.22s;
-}
-
-.bid-btn {
+  transition: background 0.22s, transform 0.15s ease;
   background: #ffd700;
   color: #3d2600;
 }
+
 .bid-btn:hover {
   background: #ffe574;
-}
-
-.auction-trade-btn {
-  background: #0d9ddf;
-  color: #fff;
-}
-.auction-trade-btn:hover {
-  background: #21b0ff;
+  transform: scale(1.05);
 }
 
 
@@ -104,7 +140,7 @@
   backdrop-filter: blur(10px);
   border-radius: 10px;
   padding: 2rem;
-  width: 300px;
+  width: 320px;
   max-width: 90%;
   color: white;
   text-align: center;
@@ -135,11 +171,13 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  margin: 0.3rem;
 }
 
 .bid-form-modal-content button:hover {
   background-color: #ffbd5c;
+  transform: scale(1.05);
 }
 
 .error {
