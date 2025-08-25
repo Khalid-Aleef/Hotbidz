@@ -1,5 +1,13 @@
 
 const mongoose = require('mongoose');
+const commentSchema = new mongoose.Schema(
+  {
+    userName: { type: String, required: true },
+    text: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+  },
+  { _id: false }
+);
 
 const auctionStoreSchema = new mongoose.Schema(
   {
@@ -33,7 +41,8 @@ const auctionStoreSchema = new mongoose.Schema(
 
 
     
-    newowner:    { type: mongoose.Schema.Types.ObjectId, ref: 'user' }
+    newowner:    { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    cmnt: { type: [commentSchema], default: [] }
   },
   { timestamps: true, collection: 'auction_store' }
 );

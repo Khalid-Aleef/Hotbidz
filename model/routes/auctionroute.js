@@ -4,6 +4,7 @@ const Car = require('../models/car');
 const AuctionStore = require('../models/auction_store');
 const bidController = require('../controllers/bidController');  
 const auctionController = require('../controllers/auctionController'); 
+const User = require('../models/user'); 
 
 
 
@@ -34,10 +35,37 @@ router.post('/', async (req, res) => {
       startingBid: Number(startingBid),
       currentBid: startingBid,
       end: new Date(endISO),
-      status: 'open'
+      status: 'open',
+      cmnt: [] 
     });
 
     return res.json({ message: 'Auction created', auction: doc });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
+});
+router.post('/:auctionId/comment', async (req, res) => {
+  try {
+    const { userId, text } = req.body;
+    const { auctionId } = req.params;
+
+    if (!userId || !text) {
+      return res.status(400).json({ message: 'userId and text are required' });
+    }
+
+    const auction = await AuctionStore.findById(auctionId);
+    if (!auction) return res.status(404).json({ message: 'Auction not found' });
+
+    // ✅ fetch the user’s name
+    const user = await User.findById(userId).select('name');
+    const userName = user?.name || 'Unknown';
+
+    // ✅ push comment with userName, not userId
+    auction.cmnt.push({ userName, text, createdAt: new Date() });
+    await auction.save();
+
+    res.json({ message: 'Comment added', auction });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server Error', error: err.message });
@@ -62,7 +90,18 @@ router.get('/', async (req, res) => {
 
     const auctions = await AuctionStore.find(query)
       .sort({ end: -1 }) 
-      .populate('carId', 'carName image'); 
+      .populate('carId', 'carName image')
+      .lean();
+
+    auctions.forEach(a => {
+      a.cmnt = (a.cmnt || []).map(c => ({
+        ...c,
+        userName: c.userName || c.userId || 'User' // <- fallback to old field
+      }));
+    });
+      
+      
+      
 
     return res.json(auctions);
   } catch (err) {

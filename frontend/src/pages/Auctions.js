@@ -13,6 +13,9 @@ const Auctions = () => {
   const [bidAmount, setBidAmount] = useState("");
   const [bidError, setBidError] = useState("");
 
+  const [showDetails, setShowDetails] = useState(false); // ✅ new for details modal
+  const [commentText, setCommentText] = useState("");
+
   const [search, setSearch] = useState("");
   const [rarity, setRarity] = useState("");
   const [sortBy, setSortBy] = useState("");
@@ -53,7 +56,6 @@ const Auctions = () => {
       });
   }, [userId]);
 
-  
   const filteredAndSortedCars = auctionCars
     .filter((car) => {
       const matchesSearch =
@@ -66,12 +68,10 @@ const Auctions = () => {
     .sort((a, b) => {
       if (sortBy === "highestBid") return b.currentBid - a.currentBid;
       if (sortBy === "lowestBid") return a.currentBid - b.currentBid;
-      if (sortBy === "endingSoon")
-        return new Date(a.end) - new Date(b.end);
+      if (sortBy === "endingSoon") return new Date(a.end) - new Date(b.end);
       return 0;
     });
 
-  
   const calculateTimeRemaining = (endTime, status, auctionId) => {
     const now = new Date();
     const end = new Date(endTime);
@@ -86,9 +86,7 @@ const Auctions = () => {
     }
 
     const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
+    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
     return `${days}d ${hours}h ${minutes}m remaining`;
@@ -105,7 +103,6 @@ const Auctions = () => {
     }
   };
 
-  
   const handleBidClick = (car) => {
     setSelectedCar(car);
     setBidAmount(car.currentBid + 50);
@@ -133,10 +130,7 @@ const Auctions = () => {
 
       const response = await axios.post(
         `http://localhost:5000/api/auctions/bid/${selectedCar._id}`,
-        {
-          userId,
-          bidAmount,
-        }
+        { userId, bidAmount }
       );
 
       alert(response.data.message);
@@ -151,7 +145,29 @@ const Auctions = () => {
     setBidError("");
   };
 
-  
+  // ✅ Handle opening details modal
+  const handleCarClick = (car, e) => {
+    if (e.target.tagName === "BUTTON") return; // don’t trigger when clicking Bid
+    setSelectedCar(car);
+    setShowDetails(true);
+  };
+
+  // ✅ Handle adding a comment
+  const handleAddComment = async () => {
+    if (!commentText.trim()) return;
+
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/auctions/${selectedCar._id}/comment`,
+        { userId, text: commentText }
+      );
+      setSelectedCar(response.data.auction); // update car with new comments
+      setCommentText("");
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
+  };
+
   if (loading) return <p>Loading auctions...</p>;
   if (error) return <p>{error}</p>;
 
@@ -188,10 +204,13 @@ const Auctions = () => {
         )}
 
         {filteredAndSortedCars.map((car) => (
-          <div key={car._id} className="auction-card">
+          <div
+            key={car._id}
+            className="auction-card"
+            onClick={(e) => handleCarClick(car, e)} // ✅ open details modal
+          >
             <p>
-              <b>End:</b>{" "}
-              {car.end ? new Date(car.end).toLocaleDateString() : "N/A"}
+              <b>End:</b> {car.end ? new Date(car.end).toLocaleDateString() : "N/A"}
             </p>
             <p>
               <b>Time Remaining:</b>{" "}
@@ -205,24 +224,12 @@ const Auctions = () => {
             />
 
             <h3>{car.carName || car.name}</h3>
-            <p>
-              <b>Series:</b> {car.series}
-            </p>
-            <p>
-              <b>Year:</b> {car.year}
-            </p>
-            <p>
-              <b>Rarity:</b> {car.rarity}
-            </p>
-            <p>
-              <b>Starting Bid:</b> {car.startingBid} BDT
-            </p>
-            <p>
-              <b>Current Bid:</b> {car.currentBid} BDT
-            </p>
-            <p>
-              <b>Seller:</b> {car.sellerName}
-            </p>
+            <p><b>Series:</b> {car.series}</p>
+            <p><b>Year:</b> {car.year}</p>
+            <p><b>Rarity:</b> {car.rarity}</p>
+            <p><b>Starting Bid:</b> {car.startingBid} BDT</p>
+            <p><b>Current Bid:</b> {car.currentBid} BDT</p>
+            <p><b>Seller:</b> {car.sellerName}</p>
 
             <button
               className="bid-btn"
@@ -234,6 +241,51 @@ const Auctions = () => {
           </div>
         ))}
       </div>
+
+      {/* ✅ Details Modal */}
+      {showDetails && selectedCar && (
+        <div className="details-modal">
+          <div className="details-modal-content">
+            <h2>{selectedCar.carName || selectedCar.name}</h2>
+            <img
+              src={selectedCar.image || "default-image.jpg"}
+              alt={selectedCar.carName || selectedCar.name}
+            />
+            <p><b>Series:</b> {selectedCar.series}</p>
+            <p><b>Year:</b> {selectedCar.year}</p>
+            <p><b>Rarity:</b> {selectedCar.rarity}</p>
+            <p><b>Description:</b> {selectedCar.description}</p>
+            <p><b>Current Bid:</b> {selectedCar.currentBid} BDT</p>
+
+            {/* ✅ Comments Section */}
+            <div className="comments-section">
+              <h3>Comments</h3>
+              {selectedCar.cmnt?.length > 0 ? (
+                <ul>
+                  {selectedCar.cmnt.map((c, idx) => (
+                    <li key={idx}>
+                      <b>{c.userName || "User"}:</b> {c.text}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No comments yet.</p>
+              )}
+              <div className="add-comment">
+                <input
+                  type="text"
+                  placeholder="Write a comment..."
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                />
+                <button onClick={handleAddComment}>Add Comment</button>
+              </div>
+            </div>
+
+            <button onClick={() => setShowDetails(false)}>Close</button>
+          </div>
+        </div>
+      )}
 
       {showBidForm && selectedCar && (
         <div className="bid-form-modal">
@@ -253,9 +305,7 @@ const Auctions = () => {
               />
               {bidError && <p className="error">{bidError}</p>}
               <button type="submit">Place Bid</button>
-              <button type="button" onClick={closeBidForm}>
-                Cancel
-              </button>
+              <button type="button" onClick={closeBidForm}>Cancel</button>
             </form>
           </div>
         </div>

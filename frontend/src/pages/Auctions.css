@@ -185,3 +185,123 @@
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
+
+.details-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.details-modal-content {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 1.2rem;
+  width: 95%;
+  max-width: 420px;   /* ✅ smaller modal */
+  max-height: 90vh;   /* ✅ fit to screen */
+  overflow-y: auto;   /* ✅ scroll inside if content too long */
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  animation: scaleIn 0.25s ease;
+}
+
+.details-modal-content img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 0.8rem 0;
+}
+
+/* ---------- Close Button ---------- */
+.details-modal-content button {
+  margin-top: 1rem;
+  padding: 0.5rem 1.1rem;
+  border: none;
+  border-radius: 6px;
+  background: #ff4d4d;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.details-modal-content button:hover {
+  background: #ff7070;
+}
+
+/* ---------- Comments Section ---------- */
+.comments-section {
+  margin-top: 1rem;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.8rem;
+  border-radius: 8px;
+  max-height: 200px;     /* ✅ scrollable comments */
+  overflow-y: auto;
+}
+
+.comments-section h3 {
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 0.3rem;
+}
+
+.comments-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comments-section li {
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  line-height: 1.2rem;
+}
+
+/* ---------- Add Comment Bar ---------- */
+.add-comment {
+  margin-top: 0.8rem;
+  display: flex;
+  gap: 6px;
+}
+
+.add-comment input {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.add-comment button {
+  padding: 0.5rem 0.8rem;
+  background: #0d9ddf;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-comment button:hover {
+  background: #29b4f8;
+}
+
+/* ---------- Animations ---------- */
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
