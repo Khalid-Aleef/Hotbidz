@@ -16,8 +16,15 @@ const Login = () => {
       const res = await axios.post('http://127.0.0.1:5000/api/login', form);
       alert(res.data.message);
       localStorage.setItem('userId', res.data.userId);
-      setShowSplash(true);
       
+      // Check if admin login
+      if (res.data.isAdmin) {
+        localStorage.setItem('isAdmin', 'true');
+        navigate('/admin');
+        return;
+      }
+      
+      setShowSplash(true);
       const audio = new Audio(process.env.PUBLIC_URL + '/car.mp3');
       audio.play();
       setTimeout(() => {
@@ -40,9 +47,9 @@ const Login = () => {
           <form className="login-form" onSubmit={handleSubmit}>
             <h2>Login</h2>
             <input
-              type="email"
+              type="text"
               name="email"
-              placeholder="Email"
+              placeholder="Email or Username"
               value={form.email}
               onChange={handleChange}
               required

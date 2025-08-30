@@ -68,6 +68,11 @@ const UserInventory = () => {
       });
       alert('Auction created!');
       closeAuction();
+      
+      // Refresh the page after successful auction creation
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create auction');
     }

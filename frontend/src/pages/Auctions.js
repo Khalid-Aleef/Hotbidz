@@ -7,6 +7,7 @@ const Auctions = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [closedAuctions, setClosedAuctions] = useState(new Set());
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   const [showBidForm, setShowBidForm] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
@@ -34,15 +35,35 @@ const Auctions = () => {
       .then((res) => {
         const auctionData = res.data;
 
-        const sellerPromises = auctionData.map((car) =>
-          axios
-            .get(`http://localhost:5000/api/users/${car.sellerId}`)
-            .then((response) => ({
+        const sellerPromises = auctionData.map(async (car) => {
+          try {
+            const sellerResponse = await axios.get(`http://localhost:5000/api/users/${car.sellerId}`);
+            const sellerName = sellerResponse.data.name;
+            
+            // Get highest bidder name if exists
+            let highestBidderName = "No bids yet";
+            if (car.highestBidder && car.highestBidder !== car.sellerId) {
+              try {
+                const bidderResponse = await axios.get(`http://localhost:5000/api/users/${car.highestBidder}`);
+                highestBidderName = bidderResponse.data.name;
+              } catch (err) {
+                highestBidderName = "Unknown bidder";
+              }
+            }
+            
+            return {
               ...car,
-              sellerName: response.data.name,
-            }))
-            .catch(() => ({ ...car, sellerName: "Unknown" }))
-        );
+              sellerName,
+              highestBidderName
+            };
+          } catch (err) {
+            return { 
+              ...car, 
+              sellerName: "Unknown",
+              highestBidderName: "Unknown bidder"
+            };
+          }
+        });
 
         Promise.all(sellerPromises).then((carsWithSeller) => {
           setAuctionCars(carsWithSeller);
@@ -55,6 +76,15 @@ const Auctions = () => {
         console.error("Error fetching auction cars", err);
       });
   }, [userId]);
+
+  // Live time update every second
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const filteredAndSortedCars = auctionCars
     .filter((car) => {
@@ -73,9 +103,8 @@ const Auctions = () => {
     });
 
   const calculateTimeRemaining = (endTime, status, auctionId) => {
-    const now = new Date();
     const end = new Date(endTime);
-    const timeDiff = end - now;
+    const timeDiff = end - currentTime;
 
     if (status === "closed" || timeDiff <= 0) {
       if (!closedAuctions.has(auctionId)) {
@@ -88,8 +117,17 @@ const Auctions = () => {
     const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-    return `${days}d ${hours}h ${minutes}m remaining`;
+    if (days > 0) {
+      return `${days}d ${hours}h ${minutes}m ${seconds}s remaining`;
+    } else if (hours > 0) {
+      return `${hours}h ${minutes}m ${seconds}s remaining`;
+    } else if (minutes > 0) {
+      return `${minutes}m ${seconds}s remaining`;
+    } else {
+      return `${seconds}s remaining`;
+    }
   };
 
   const closeAuctionAndRecordPayment = async (auctionId) => {
@@ -133,8 +171,37 @@ const Auctions = () => {
         { userId, bidAmount }
       );
 
+      // Get current user name for highest bidder
+      const currentUser = await axios.get(`http://localhost:5000/api/users/${userId}`);
+      const bidderName = currentUser.data.name;
+
+      // Update the auction data with the new bid and highest bidder
+      setAuctionCars(prevCars => 
+        prevCars.map(car => 
+          car._id === selectedCar._id 
+            ? { 
+                ...car, 
+                currentBid: parseInt(bidAmount),
+                highestBidder: userId,
+                highestBidderName: bidderName
+              }
+            : car
+        )
+      );
+
+      // Update the selected car for the details modal
+      setSelectedCar(prev => 
+        prev ? { 
+          ...prev, 
+          currentBid: parseInt(bidAmount),
+          highestBidder: userId,
+          highestBidderName: bidderName
+        } : null
+      );
+
       alert(response.data.message);
       setShowBidForm(false);
+      setBidError("");
     } catch (err) {
       setBidError(err.response?.data?.message || "Error placing bid");
     }
@@ -229,6 +296,7 @@ const Auctions = () => {
             <p><b>Rarity:</b> {car.rarity}</p>
             <p><b>Starting Bid:</b> {car.startingBid} BDT</p>
             <p><b>Current Bid:</b> {car.currentBid} BDT</p>
+            <p><b>Highest Bidder:</b> {car.highestBidderName}</p>
             <p><b>Seller:</b> {car.sellerName}</p>
 
             <button
@@ -256,6 +324,8 @@ const Auctions = () => {
             <p><b>Rarity:</b> {selectedCar.rarity}</p>
             <p><b>Description:</b> {selectedCar.description}</p>
             <p><b>Current Bid:</b> {selectedCar.currentBid} BDT</p>
+            <p><b>Highest Bidder:</b> {selectedCar.highestBidderName}</p>
+            <p><b>Seller:</b> {selectedCar.sellerName}</p>
 
             {/*  Comments Section */}
             <div className="comments-section">

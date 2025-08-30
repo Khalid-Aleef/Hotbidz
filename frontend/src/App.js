@@ -4,7 +4,7 @@ import axios from "axios";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import Navigbar from "./components/Navigbar";
-import Chatbot from "./components/Chatbot";   // ✅ Import Chatbot
+import Chatbot from "./components/Chatbot";   
 
 import UserProfile from "./pages/UserProfile";
 import Auctions from "./pages/Auctions";
@@ -15,6 +15,7 @@ import Signup from "./pages/signup";
 import Login from "./pages/login";
 import AuthPage from "./pages/AuthPage";
 import MyAuction from "./pages/myauction";
+import AdminPanel from "./pages/AdminPanel";
 
 function AppWrapper() {
   const location = useLocation();
@@ -45,10 +46,11 @@ function AppWrapper() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/myauction/:id" element={<MyAuction />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>
 
-      {/* ✅ Chatbot is always visible */}
+      {/* Chatbot is always visible */}
       {!hideNavbar && <Chatbot />}
     </div>
   );

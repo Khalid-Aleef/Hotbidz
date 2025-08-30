@@ -39,13 +39,18 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
+    // Check for admin login
+    if (email === 'admin' && password === 'admin') {
+      return res.json({ message: 'Admin login successful', isAdmin: true, userId: 'admin' });
+    }
+
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    res.json({ message: 'Login successful', userId: user._id });
+    res.json({ message: 'Login successful', userId: user._id, isAdmin: false });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }

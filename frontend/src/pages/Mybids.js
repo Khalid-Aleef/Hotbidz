@@ -63,7 +63,12 @@ const MyBids = () => {
     })
       .then(response => {
         alert("Payment successful!");
-        setShowPaymentModal(false); 
+        setShowPaymentModal(false);
+        
+        // Refresh the page after successful payment
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .catch(err => {
         setPaymentError(err.response?.data?.message || "Error processing payment");

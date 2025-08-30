@@ -1,0 +1,199 @@
+.admin-panel {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: transparent !important; /* transparent */
+  min-height: 100vh;
+}
+
+/* Transparent body */
+body {
+  background-color: transparent !important;
+}
+
+.admin-header {
+  background: rgba(255, 255, 255, 0.15); /* transparent white */
+  backdrop-filter: blur(12px); /* frosted glass */
+  -webkit-backdrop-filter: blur(12px);
+  margin-bottom: 30px;
+  padding: 20px;
+  
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* soft shadow */
+}
+
+.admin-header h1 {
+  margin: 0 0 10px 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.admin-header p {
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.users-container {
+  background: rgba(255, 255, 255, 0.15); /* semi-transparent glass */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(15px); /* frosted glass effect */
+}
+
+.users-container h2 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 1.8rem;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 10px;
+}
+
+.users-list {
+  display: grid;
+  gap: 20px;
+}
+
+.user-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  border: 1px solid rgba(224, 224, 224, 0.4);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2); /* transparent card */
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px); /* glass look */
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-color: #667eea;
+}
+
+.user-info {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+}
+
+.user-avatar {
+  flex-shrink: 0;
+}
+
+.user-avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #667eea;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-details h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.user-details p {
+  margin: 5px 0;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.user-details strong {
+  color: #222;
+}
+
+.achievements {
+  margin-top: 10px;
+}
+
+.achievements ul {
+  margin: 5px 0;
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.achievements li {
+  background: #667eea;
+  color: white;
+  padding: 2px 8px;
+  margin: 2px 0;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.user-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}
+
+.admin-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #667eea;
+}
+
+.admin-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #dc3545;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .admin-panel {
+    padding: 10px;
+  }
+  
+  .user-card {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .user-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .user-actions {
+    width: 100%;
+  }
+  
+  .delete-btn {
+    width: 100%;
+  }
+}
