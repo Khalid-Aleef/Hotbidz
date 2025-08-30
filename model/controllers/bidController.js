@@ -1,9 +1,29 @@
 
 const AuctionStore = require('../models/auction_store');  
+const User = require('../models/user');
 
 exports.placeBid = async (req, res) => {
   const { auctionId } = req.params;  
   const { userId, bidAmount } = req.body;  
+
+  
+  const user = await User.findById(userId);
+  if (user) {
+    user.totalbid += 1;
+    
+    
+    if (user.totalbid === 5) {
+      user.achievements.push("Rookie Bidder");
+    } else if (user.totalbid === 10) {
+      user.achievements.push("Bidder");
+    } else if (user.totalbid === 15) {
+      user.achievements.push("Pro Bidder");
+    } else if (user.totalbid === 20) {
+      user.achievements.push("Bid Master");
+    }
+    
+    await user.save();
+  }
 
   console.log("Received bid request:", { auctionId, userId, bidAmount });  
 

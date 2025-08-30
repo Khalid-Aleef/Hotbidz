@@ -9,11 +9,15 @@ const userSchema = new mongoose.Schema({
   ownedCar: { type: Number, default: 0 },
   type: { type: String, default: "Fresh" },
   profileImage: {type: String} ,
+  totalcar:{ type: Number, default: 0 },
   carInventory: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Car' }],
   achievements: {
     type: [String],
     default: []
-  }
+  },
+  fauc:{ type: Number, default: 0 },
+  fwon:{ type: Number, default: 0 },
+  totalbid:{ type: Number, default: 0 }
  
 
   

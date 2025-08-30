@@ -45,8 +45,32 @@ exports.validatePayment = async (req, res) => {
     }
 
     
+    
+    const previousOwner = await User.findById(car.addedBy).exec();
+    
     car.addedBy = payment.highestBidderId.toString(); 
     await car.save(); 
+
+    
+    user.ownedCar+=1;
+    user.totalcar+=1;
+    
+    
+    if (user.totalcar >= 15) {
+      user.type = "Auction Legend";
+    } else if (user.totalcar >= 10) {
+      user.type = "Auction Master";
+    } else if (user.totalcar >= 5) {
+      user.type = "Rookie";
+    }
+    
+    await user.save();
+
+    
+    if (previousOwner) {
+      previousOwner.ownedCar = Math.max(0, previousOwner.ownedCar - 1); 
+      await previousOwner.save();
+    }
 
     
     await AuctionStore.deleteOne({ _id: auctionId });

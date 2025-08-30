@@ -39,6 +39,14 @@ router.post('/', async (req, res) => {
       cmnt: [] 
     });
 
+    // Check for first auction achievement
+    const seller = await User.findById(sellerId);
+    if (seller && seller.fauc === 0) {
+      seller.fauc = 1;
+      seller.achievements.push("First Auction");
+      await seller.save();
+    }
+
     return res.json({ message: 'Auction created', auction: doc });
   } catch (err) {
     console.error(err);
@@ -57,11 +65,11 @@ router.post('/:auctionId/comment', async (req, res) => {
     const auction = await AuctionStore.findById(auctionId);
     if (!auction) return res.status(404).json({ message: 'Auction not found' });
 
-    // ✅ fetch the user’s name
+    // fetch the user’s name
     const user = await User.findById(userId).select('name');
     const userName = user?.name || 'Unknown';
 
-    // ✅ push comment with userName, not userId
+    //  push comment with userName, not userId
     auction.cmnt.push({ userName, text, createdAt: new Date() });
     await auction.save();
 

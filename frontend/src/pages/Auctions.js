@@ -13,7 +13,7 @@ const Auctions = () => {
   const [bidAmount, setBidAmount] = useState("");
   const [bidError, setBidError] = useState("");
 
-  const [showDetails, setShowDetails] = useState(false); // ✅ new for details modal
+  const [showDetails, setShowDetails] = useState(false); 
   const [commentText, setCommentText] = useState("");
 
   const [search, setSearch] = useState("");
@@ -145,14 +145,14 @@ const Auctions = () => {
     setBidError("");
   };
 
-  // ✅ Handle opening details modal
+  //  Handle opening details modal
   const handleCarClick = (car, e) => {
-    if (e.target.tagName === "BUTTON") return; // don’t trigger when clicking Bid
+    if (e.target.tagName === "BUTTON") return; 
     setSelectedCar(car);
     setShowDetails(true);
   };
 
-  // ✅ Handle adding a comment
+  //  Handle adding a comment
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
 
@@ -161,7 +161,7 @@ const Auctions = () => {
         `http://localhost:5000/api/auctions/${selectedCar._id}/comment`,
         { userId, text: commentText }
       );
-      setSelectedCar(response.data.auction); // update car with new comments
+      setSelectedCar(response.data.auction); 
       setCommentText("");
     } catch (err) {
       console.error("Error adding comment:", err);
@@ -207,7 +207,7 @@ const Auctions = () => {
           <div
             key={car._id}
             className="auction-card"
-            onClick={(e) => handleCarClick(car, e)} // ✅ open details modal
+            onClick={(e) => handleCarClick(car, e)} // 
           >
             <p>
               <b>End:</b> {car.end ? new Date(car.end).toLocaleDateString() : "N/A"}
@@ -242,7 +242,7 @@ const Auctions = () => {
         ))}
       </div>
 
-      {/* ✅ Details Modal */}
+      {/*  Details Modal */}
       {showDetails && selectedCar && (
         <div className="details-modal">
           <div className="details-modal-content">
@@ -257,7 +257,7 @@ const Auctions = () => {
             <p><b>Description:</b> {selectedCar.description}</p>
             <p><b>Current Bid:</b> {selectedCar.currentBid} BDT</p>
 
-            {/* ✅ Comments Section */}
+            {/*  Comments Section */}
             <div className="comments-section">
               <h3>Comments</h3>
               {selectedCar.cmnt?.length > 0 ? (

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const AuctionStore = require('../models/auction_store');
 const Payment = require('../models/payment');
+const User = require('../models/user');
 
 exports.endAuctionAndRecordPayment = async (req, res) => {
   const { auctionId } = req.params;  
@@ -62,6 +63,15 @@ exports.endAuctionAndRecordPayment = async (req, res) => {
     });
 
     
+    
+    
+    const highestBidderr = await User.findById(auction.highestBidder);
+    if (highestBidderr && highestBidderr.fwon === 0) {
+      highestBidderr.fwon = 1;
+      highestBidderr.achievements.push("1st Won");
+      await highestBidderr.save();
+    }
+
     console.log("Saving payment record for highest bidder...");
     await payment.save();
     console.log("Payment saved successfully:", payment);
