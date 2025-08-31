@@ -42,7 +42,9 @@ const auctionStoreSchema = new mongoose.Schema(
 
     
     newowner:    { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
-    cmnt: { type: [commentSchema], default: [] }
+    cmnt: { type: [commentSchema], default: [] },
+    likes: { type: Number, default: 0 },
+    likedBy: { type: [mongoose.Schema.Types.ObjectId], ref: 'user', default: [] }
   },
   { timestamps: true, collection: 'auction_store' }
 );

@@ -189,7 +189,7 @@ const Settings = () => {
             <p><strong>Current Name:</strong> {user?.name}</p>
             <p><strong>User Type:</strong> {user?.type}</p>
             <p><strong>Owned Cars:</strong> {user?.ownedCar}</p>
-            <p><strong>Total Cars:</strong> {user?.totalcar}</p>
+            
             <p><strong>Total Bids:</strong> {user?.totalbid}</p>
           </div>
         </div>

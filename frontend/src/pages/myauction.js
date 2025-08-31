@@ -103,6 +103,42 @@ const MyAuction = () => {
     }
   };
 
+  // Handle adding/removing a like
+  const handleLike = async (carId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/auctions/${carId}/like`,
+        { userId }
+      );
+      
+      // Update the auction data with the new like count and likedBy array
+      setAuctionCars(prevCars => 
+        prevCars.map(car => 
+          car._id === carId 
+            ? { 
+                ...car, 
+                likes: response.data.auction.likes,
+                likedBy: response.data.auction.likedBy
+              }
+            : car
+        )
+      );
+
+      // Update the selected car for the details modal
+      setSelectedCar(prev => 
+        prev && prev._id === carId 
+          ? { 
+              ...prev, 
+              likes: response.data.auction.likes,
+              likedBy: response.data.auction.likedBy
+            }
+          : prev
+      );
+    } catch (err) {
+      console.error("Error toggling like:", err);
+    }
+  };
+
   if (loading) return <p>Loading your auctions...</p>;
   if (error) return <p>{error}</p>;
 
@@ -125,8 +161,9 @@ return (
            <p><b>Series:</b> {car.series}</p>
            <p><b>Year:</b> {car.year}</p>
            <p><b>Rarity:</b> {car.rarity}</p>
-           <p><b>Starting Bid:</b> {car.startingBid} BDT</p>
-           <p><b>Current Bid:</b> {car.currentBid} BDT</p>
+                       <p><b>Starting Bid:</b> {car.startingBid} BDT</p>
+            <p><b>Current Bid:</b> {car.currentBid} BDT</p>
+            <p><b>Likes:</b> {car.likes || 0}</p>
          </div>
               ))}
      </div>
@@ -144,8 +181,16 @@ return (
            <p><b>Year:</b> {selectedCar.year}</p>
            <p><b>Rarity:</b> {selectedCar.rarity}</p>
            <p><b>Description:</b> {selectedCar.description}</p>
-           <p><b>Current Bid:</b> {selectedCar.currentBid} BDT</p>
-           <p><b>Seller:</b> {selectedCar.sellerName}</p>
+                       <p><b>Current Bid:</b> {selectedCar.currentBid} BDT</p>
+            <p><b>Seller:</b> {selectedCar.sellerName}</p>
+            <p><b>Likes:</b> {selectedCar.likes || 0}</p>
+            
+                         <button
+               className={`like-btn ${selectedCar.likedBy?.includes(userId) ? 'liked' : ''}`}
+               onClick={() => handleLike(selectedCar._id)}
+             >
+               {selectedCar.likedBy?.includes(userId) ? 'Unlike' : 'Like'}
+             </button>
 
            {/* Comments Section */}
            <div className="comments-section">

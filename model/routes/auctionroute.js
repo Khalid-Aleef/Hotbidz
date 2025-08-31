@@ -80,6 +80,40 @@ router.post('/:auctionId/comment', async (req, res) => {
   }
 });
 
+router.post('/:auctionId/like', async (req, res) => {
+  try {
+    const { auctionId } = req.params;
+    const { userId } = req.body;
+
+    const auction = await AuctionStore.findById(auctionId);
+    if (!auction) return res.status(404).json({ message: 'Auction not found' });
+
+    // Initialize likedBy array if it doesn't exist
+    if (!auction.likedBy) {
+      auction.likedBy = [];
+    }
+
+    // Check if user has already liked this auction
+    const userLikedIndex = auction.likedBy.indexOf(userId);
+    
+    if (userLikedIndex === -1) {
+      // User hasn't liked yet - add like
+      auction.likedBy.push(userId);
+      auction.likes = (auction.likes || 0) + 1;
+      res.json({ message: 'Like added', auction, liked: true });
+    } else {
+      // User has already liked - remove like
+      auction.likedBy.splice(userLikedIndex, 1);
+      auction.likes = Math.max(0, (auction.likes || 0) - 1);
+      res.json({ message: 'Like removed', auction, liked: false });
+    }
+    
+    await auction.save();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
+});
 
 router.get('/', async (req, res) => {
   try {

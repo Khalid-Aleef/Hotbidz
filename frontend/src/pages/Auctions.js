@@ -95,12 +95,13 @@ const Auctions = () => {
       const matchesRarity = rarity ? car.rarity === rarity : true;
       return matchesSearch && matchesRarity;
     })
-    .sort((a, b) => {
-      if (sortBy === "highestBid") return b.currentBid - a.currentBid;
-      if (sortBy === "lowestBid") return a.currentBid - b.currentBid;
-      if (sortBy === "endingSoon") return new Date(a.end) - new Date(b.end);
-      return 0;
-    });
+         .sort((a, b) => {
+       if (sortBy === "highestBid") return b.currentBid - a.currentBid;
+       if (sortBy === "lowestBid") return a.currentBid - b.currentBid;
+       if (sortBy === "endingSoon") return new Date(a.end) - new Date(b.end);
+       if (sortBy === "mostLiked") return (b.likes || 0) - (a.likes || 0);
+       return 0;
+     });
 
   const calculateTimeRemaining = (endTime, status, auctionId) => {
     const end = new Date(endTime);
@@ -235,6 +236,42 @@ const Auctions = () => {
     }
   };
 
+  // Handle adding/removing a like
+  const handleLike = async (carId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/auctions/${carId}/like`,
+        { userId }
+      );
+      
+      // Update the auction data with the new like count and likedBy array
+      setAuctionCars(prevCars => 
+        prevCars.map(car => 
+          car._id === carId 
+            ? { 
+                ...car, 
+                likes: response.data.auction.likes,
+                likedBy: response.data.auction.likedBy
+              }
+            : car
+        )
+      );
+
+      // Update the selected car for the details modal
+      setSelectedCar(prev => 
+        prev && prev._id === carId 
+          ? { 
+              ...prev, 
+              likes: response.data.auction.likes,
+              likedBy: response.data.auction.likedBy
+            }
+          : prev
+      );
+    } catch (err) {
+      console.error("Error toggling like:", err);
+    }
+  };
+
   if (loading) return <p>Loading auctions...</p>;
   if (error) return <p>{error}</p>;
 
@@ -257,12 +294,13 @@ const Auctions = () => {
           <option value="Rare">Rare</option>
           <option value="Super Treasure Hunt">Super Treasure Hunt</option>
         </select>
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-          <option value="">Sort By</option>
-          <option value="endingSoon">Ending Soon</option>
-          <option value="highestBid">Highest Bid</option>
-          <option value="lowestBid">Lowest Bid</option>
-        </select>
+                 <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+           <option value="">Sort By</option>
+           <option value="endingSoon">Ending Soon</option>
+           <option value="highestBid">Highest Bid</option>
+           <option value="lowestBid">Lowest Bid</option>
+           <option value="mostLiked">Most Liked</option>
+         </select>
       </div>
 
       <div className="auction-grid">
@@ -298,14 +336,26 @@ const Auctions = () => {
             <p><b>Current Bid:</b> {car.currentBid} BDT</p>
             <p><b>Highest Bidder:</b> {car.highestBidderName}</p>
             <p><b>Seller:</b> {car.sellerName}</p>
+            <p><b>Likes:</b> {car.likes || 0}</p>
 
-            <button
-              className="bid-btn"
-              onClick={() => handleBidClick(car)}
-              disabled={car.status === "closed"}
-            >
-              Bid
-            </button>
+            <div className="auction-card-buttons">
+              <button
+                className="bid-btn"
+                onClick={() => handleBidClick(car)}
+                disabled={car.status === "closed"}
+              >
+                Bid
+              </button>
+                             <button
+                 className={`like-btn ${car.likedBy?.includes(userId) ? 'liked' : ''}`}
+                 onClick={(e) => {
+                   e.stopPropagation();
+                   handleLike(car._id);
+                 }}
+               >
+                 {car.likedBy?.includes(userId) ? 'Unlike' : 'Like'}
+               </button>
+            </div>
           </div>
         ))}
       </div>
@@ -326,6 +376,14 @@ const Auctions = () => {
             <p><b>Current Bid:</b> {selectedCar.currentBid} BDT</p>
             <p><b>Highest Bidder:</b> {selectedCar.highestBidderName}</p>
             <p><b>Seller:</b> {selectedCar.sellerName}</p>
+            <p><b>Likes:</b> {selectedCar.likes || 0}</p>
+            
+                         <button
+               className={`like-btn ${selectedCar.likedBy?.includes(userId) ? 'liked' : ''}`}
+               onClick={() => handleLike(selectedCar._id)}
+             >
+               {selectedCar.likedBy?.includes(userId) ? 'Unlike' : 'Like'}
+             </button>
 
             {/*  Comments Section */}
             <div className="comments-section">
