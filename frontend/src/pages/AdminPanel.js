@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUsers();
+    fetchUsersFromAdminRoute();
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchUsersFromAdminRoute = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/api/users');
+      const response = await axios.get('http://localhost:5000/api/admin/users');
       setUsers(response.data);
       setLoading(false);
     } catch (err) {
@@ -22,30 +24,42 @@ const AdminPanel = () => {
     }
   };
 
-  const handleDeleteUser = async (userId) => {
+  const handleDeleteUserFromController = async (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        await axios.delete(`http://127.0.0.1:5000/api/users/${userId}`);
+        await axios.delete(`http://localhost:5000/api/admin/users/${userId}`);
         alert('User deleted successfully');
-        fetchUsers(); // Refresh the list
+        fetchUsersFromAdminRoute(); 
       } catch (err) {
-        alert('Failed to delete user');
+        alert('Failed to delete');
       }
     }
   };
 
-  if (loading) return <div className="admin-loading">Loading...</div>;
+  const handleLogout = () => {
+    // Clear any admin session
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('userToken');
+    // Redirect to auth page
+    navigate('/');
+  };
+
+  if (loading) return <div className="admin-loading">Loading users from admin route...</div>;
   if (error) return <div className="admin-error">{error}</div>;
 
   return (
     <div className="admin-panel">
       <div className="admin-header">
-        <h1>Admin Panel</h1>
-        <p>Manage all users in the system</p>
+        <div className="admin-header-top">
+          <h1>Admin Panel</h1>
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </div>
 
       <div className="users-container">
-        <h2>All Users ({users.length})</h2>
+        <h2>All Users({users.length})</h2>
         
         <div className="users-list">
           {users.map((user) => (
@@ -90,7 +104,7 @@ const AdminPanel = () => {
               <div className="user-actions">
                 <button 
                   className="delete-btn"
-                  onClick={() => handleDeleteUser(user._id)}
+                  onClick={() => handleDeleteUserFromController(user._id)}
                 >
                   Delete User
                 </button>

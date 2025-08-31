@@ -27,8 +27,8 @@ function AppWrapper() {
       .catch(err => setMessage("API error"));
   }, []);
 
-  // Routes where we don’t want the navbar
-  const hideNavbarRoutes = ["/"];
+  // Routes where we don't want the navbar
+  const hideNavbarRoutes = ["/", "/admin"];
   const hideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
