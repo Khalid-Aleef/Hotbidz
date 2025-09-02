@@ -7,6 +7,7 @@ const ComingSoon = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [now, setNow] = useState(new Date());
+  const [isPromoting, setIsPromoting] = useState(false);
 
   // No user filter; show all including user's own
 
@@ -35,16 +36,26 @@ const ComingSoon = () => {
   // Auto-promote when time has passed; then refresh list
   useEffect(() => {
     const due = items.filter(i => new Date(i.start) <= now);
-    if (due.length === 0) return;
+    if (due.length === 0 || isPromoting) return;
+    
     const promoteAll = async () => {
+      setIsPromoting(true);
       try {
-        await Promise.all(
-          due.map(i => axios.post(`http://localhost:5000/api/comingsoon/promote/${i._id}`))
-        );
+        // Promote auctions sequentially to prevent race conditions
+        for (const item of due) {
+          try {
+            await axios.post(`http://localhost:5000/api/comingsoon/promote/${item._id}`);
+          } catch (error) {
+            // Log error but continue with other items
+            console.log(`Failed to promote auction ${item._id}:`, error.response?.data?.message || error.message);
+          }
+        }
         fetchItems();
       } catch (e) {
         // ignore errors (e.g., already promoted) and refetch anyway
         fetchItems();
+      } finally {
+        setIsPromoting(false);
       }
     };
     promoteAll();
