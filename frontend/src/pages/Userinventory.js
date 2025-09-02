@@ -6,10 +6,12 @@ import './Inventory.css';
 const UserInventory = () => {
   const { id } = useParams();
   const [cars, setCars] = useState([]);
+  const [comingSoonCarIds, setComingSoonCarIds] = useState(new Set());
   const [showAddCarForm, setShowAddCarForm] = useState(false);
   const [auctionFor, setAuctionFor] = useState(null);
   const [startingBid, setStartingBid] = useState('');
   const [endISO, setEndISO] = useState('');
+  const [startISO, setStartISO] = useState('');
   const [form, setForm] = useState({
     name: '',
     series: '',
@@ -36,6 +38,17 @@ const UserInventory = () => {
       })
       .then((res) => setCars(res.data))
       .catch((err) => console.error('Error loading inventory', err));
+
+    // Fetch coming soon items to mark scheduled cars
+    axios
+      .get('http://localhost:5000/api/comingsoon')
+      .then((res) => {
+        const list = Array.isArray(res.data) ? res.data : [];
+        const mine = list.filter((item) => String(item.sellerId) === String(id));
+        const idSet = new Set(mine.map((item) => String(item.carId)));
+        setComingSoonCarIds(idSet);
+      })
+      .catch((err) => console.error('Error loading coming soon list', err));
   }, [id, search, rarity]);
 
   
@@ -65,6 +78,7 @@ const UserInventory = () => {
         sellerId: id,
         startingBid,
         endISO,
+        startISO,
       });
       alert('Auction created!');
       closeAuction();
@@ -146,6 +160,9 @@ const UserInventory = () => {
           {cars.map((car) => (
             <div key={car._id} className="car-card">
               {car.inAuction && <div className="auction-badge">In Auction</div>}
+              {!car.inAuction && comingSoonCarIds.has(String(car._id)) && (
+                <div className="auction-badge">Auction Soon</div>
+              )}
 
               <img src={car.image} alt={car.name} width="200" />
               <h3>{car.name}</h3>
@@ -155,12 +172,11 @@ const UserInventory = () => {
               <p>Price: {car.price} BDT</p>
               <p>{car.description}</p>
 
-              {!car.inAuction && (
+              {!car.inAuction && !comingSoonCarIds.has(String(car._id)) && (
                 <div className="car-actions">
                   <button className="auction-btn" onClick={() => openAuction(car)}>
                     Start Auction
                   </button>
-                  <button className="trade-btn">Trade</button>
                 </div>
               )}
             </div>
@@ -286,6 +302,12 @@ const UserInventory = () => {
                 value={startingBid}
                 onChange={(e) => setStartingBid(e.target.value)}
                 required
+              />
+              <label>Start time</label>
+              <input
+                type="datetime-local"
+                value={startISO}
+                onChange={(e) => setStartISO(e.target.value)}
               />
               <label>End time</label>
               <input

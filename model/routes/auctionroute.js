@@ -4,13 +4,14 @@ const Car = require('../models/car');
 const AuctionStore = require('../models/auction_store');
 const bidController = require('../controllers/bidController');  
 const auctionController = require('../controllers/auctionController'); 
+const ComingSoon = require('../models/coming_soon');
 const User = require('../models/user'); 
 
 
 
 router.post('/', async (req, res) => {
   try {
-    const { carId, sellerId, startingBid, endISO } = req.body;
+    const { carId, sellerId, startingBid, endISO, startISO } = req.body;
 
     if (!carId || !sellerId || !startingBid || !endISO) {
       return res.status(400).json({ message: 'Missing required fields' });
@@ -23,7 +24,38 @@ router.post('/', async (req, res) => {
     const existing = await AuctionStore.findOne({ carId, status: 'open' });
     if (existing) return res.status(400).json({ message: 'This car is already in an open auction' });
 
-    const doc = await AuctionStore.create({
+    const now = new Date();
+    const startDate = startISO ? new Date(startISO) : now;
+
+    if (startDate <= now) {
+      const doc = await AuctionStore.create({
+        carId,
+        sellerId,
+        carName: car.name || car.carName,
+        year: car.yearReleased || car.year,
+        series: car.series,
+        rarity: car.rarity,
+        image: car.image,
+        description: car.description,
+        startingBid: Number(startingBid),
+        currentBid: startingBid,
+        end: new Date(endISO),
+        status: 'open',
+        cmnt: [] 
+      });
+      
+      // Check for first auction achievement
+      const seller = await User.findById(sellerId);
+      if (seller && seller.fauc === 0) {
+        seller.fauc = 1;
+        seller.achievements.push("First Auction");
+        await seller.save();
+      }
+      return res.json({ message: 'Auction created', auction: doc });
+    }
+
+    // Save to ComingSoon if start date is in the future
+    const csDoc = await ComingSoon.create({
       carId,
       sellerId,
       carName: car.name || car.carName,
@@ -33,21 +65,12 @@ router.post('/', async (req, res) => {
       image: car.image,
       description: car.description,
       startingBid: Number(startingBid),
-      currentBid: startingBid,
-      end: new Date(endISO),
-      status: 'open',
-      cmnt: [] 
+      currentBid: Number(startingBid),
+      start: startDate,
+      end: new Date(endISO)
     });
+    return res.json({ message: 'Scheduled for Coming Soon', comingSoon: csDoc });
 
-    // Check for first auction achievement
-    const seller = await User.findById(sellerId);
-    if (seller && seller.fauc === 0) {
-      seller.fauc = 1;
-      seller.achievements.push("First Auction");
-      await seller.save();
-    }
-
-    return res.json({ message: 'Auction created', auction: doc });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server Error', error: err.message });
@@ -156,6 +179,19 @@ router.get('/', async (req, res) => {
 
 router.post('/bid/:auctionId', bidController.placeBid);
 router.post('/end/:auctionId', auctionController.endAuctionAndRecordPayment); 
+ 
+// Delete an auction (e.g., when highest bidder is the seller)
+router.delete('/remove/:auctionId', async (req, res) => {
+  try {
+    const { auctionId } = req.params;
+    const deleted = await AuctionStore.findByIdAndDelete(auctionId);
+    if (!deleted) return res.status(404).json({ message: 'Auction not found' });
+    return res.json({ message: 'Auction removed' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
+});
   
 
 module.exports = router;

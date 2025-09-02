@@ -38,13 +38,21 @@ const UserProfile = () => {
         <p>Owned Cars: {user.ownedCar}</p>
         <p>Email: {user.email}</p>
         <p>Type: {user.type}</p>
-        <p>Badges: {user.badges?.length ? user.badges.join(', ') : "N/A"}</p>
+        
         <div className="achievements">
           <h4>Achievements:</h4>
           {user.achievements?.length > 0 ? (
-            <div className="achievement-list">
+            <div className="achievement-icons">
               {user.achievements.map((ach, index) => (
-                <p key={index}>{ach}</p>
+                <div className="achievement-item" key={index}>
+                  <img
+                    className="achievement-icon"
+                    src={`${process.env.PUBLIC_URL}/${ach}.png`}
+                    alt={ach}
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                  <span>{ach}</span>
+                </div>
               ))}
             </div>
           ) : (

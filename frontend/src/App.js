@@ -16,6 +16,7 @@ import Login from "./pages/login";
 import AuthPage from "./pages/AuthPage";
 import MyAuction from "./pages/myauction";
 import AdminPanel from "./pages/AdminPanel";
+import ComingSoon from "./pages/ComingSoon";
 
 function AppWrapper() {
   const location = useLocation();
@@ -40,6 +41,7 @@ function AppWrapper() {
           <Route path="/" element={<AuthPage />} />
           <Route path="/user/:id" element={<UserProfile />} />
           <Route path="/auctions" element={<Auctions />} />
+          <Route path="/coming-soon" element={<ComingSoon />} />
           <Route path="/mybids/:id" element={<MyBids />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/userinventory/:id" element={<Userinventory />} />

@@ -19,15 +19,20 @@ const authRoutes = require('./routes/auth');
 const auctionRoutes = require('./routes/auctionroute');
 const paymentRoute = require('./routes/paymentroute'); 
 const myAuctionRoutes = require('./routes/myaucroute');
+const comingSoonRoutes = require('./routes/comingsoonroute');
 const payUpdateRoute = require('./routes/payupdate');
 const carUpdateRoute = require('./routes/carupdate'); 
 const chatbotRoute = require("./routes/chatbotRoute");
 const adminRoutes = require('./routes/adminRoute');
+const ComingSoon = require('./models/coming_soon');
+const AuctionStore = require('./models/auction_store');
+const User = require('./models/user');
 
 // Use routes
 app.use('/api/val', payUpdateRoute);
 app.use('/api/myauctions', myAuctionRoutes);
 app.use('/api/auctions', auctionRoutes);
+app.use('/api/comingsoon', comingSoonRoutes);
 app.use('/api', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/inventory', inventoryRoutes);

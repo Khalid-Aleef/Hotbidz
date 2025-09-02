@@ -34,7 +34,12 @@ exports.endAuctionAndRecordPayment = async (req, res) => {
     auction.processing = true;
     await auction.save();
 
-    
+    // If highest bidder is the seller, remove auction without payment
+    if (auction.highestBidder && String(auction.highestBidder) === String(auction.sellerId)) {
+      await AuctionStore.findByIdAndDelete(auction._id);
+      return res.json({ message: 'Auction removed (seller was highest bidder)' });
+    }
+
     auction.status = 'closed';
     console.log("Marking auction as closed:", auction._id);
     await auction.save();

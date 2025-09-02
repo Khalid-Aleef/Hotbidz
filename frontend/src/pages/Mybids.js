@@ -25,7 +25,9 @@ const MyBids = () => {
     
     axios.get(`http://localhost:5000/api/payments/mybids/${userId}`)
       .then(res => {
-        setMyBids(res.data); 
+        const list = Array.isArray(res.data) ? res.data : [];
+        const filtered = list.filter(p => String(p.sellerId) !== String(userId));
+        setMyBids(filtered);
         setLoading(false);
       })
       .catch(err => {
@@ -35,9 +37,13 @@ const MyBids = () => {
   }, [userId]);
 
   const handlePayment = (bid) => {
+    if (!bid?.auctionId?._id) {
+      setPaymentError("This auction is no longer available.");
+      return;
+    }
     setSelectedBid(bid);
-    setEnteredAmount(bid.bidAmount); 
-    setShowPaymentModal(true); 
+    setEnteredAmount(bid.bidAmount);
+    setShowPaymentModal(true);
   };
 
   const handlePaymentSubmit = (e) => {
@@ -57,7 +63,7 @@ const MyBids = () => {
 
     
     axios.post(`http://localhost:5000/api/val/validate`, {
-      auctionId: selectedBid.auctionId._id,
+      auctionId: selectedBid?.auctionId?._id,
       enteredAmount,
       password
     })
@@ -90,27 +96,31 @@ const MyBids = () => {
         <p>No bids found.</p>
       ) : (
         <div className="my-bids-list">
-          {myBids.map((payment) => (
-            <div key={payment._id} className="bid-card">
-              <h3>{payment.auctionId.carName}</h3>
-
-              
-              <img
-                src={payment.auctionId.image}
-                alt={payment.auctionId.carName}
-                className="car-image"
-              />
-
-              <p><b>Bid Amount:</b> {payment.bidAmount} BDT</p>
-              <p><b>Status:</b> {payment.paymentStatus}</p>
-              <button
-                className="payment-btn"
-                onClick={() => handlePayment(payment)}
-              >
-                Pay Now
-              </button>
-            </div>
-          ))}
+          {myBids.map((payment) => {
+            const auction = payment.auctionId || {};
+            const title = auction.carName || auction.name || 'Unknown Car';
+            const imgSrc = auction.image || 'default-image.jpg';
+            return (
+              <div key={payment._id} className="bid-card">
+                <h3>{title}</h3>
+                <img
+                  src={imgSrc}
+                  alt={title}
+                  className="car-image"
+                  onError={(e) => { e.currentTarget.src = 'default-image.jpg'; }}
+                />
+                <p><b>Bid Amount:</b> {payment.bidAmount} BDT</p>
+                <p><b>Status:</b> {payment.paymentStatus}</p>
+                <button
+                  className="payment-btn"
+                  onClick={() => handlePayment(payment)}
+                  disabled={!auction._id}
+                >
+                  Pay Now
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
 

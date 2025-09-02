@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Navigbar.css";
 
@@ -7,6 +8,20 @@ const Navigbar = () => {
   const navigate = useNavigate();
   const location = useLocation(); 
   const [showModal, setShowModal] = useState(false);
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const fetchName = async () => {
+      try {
+        if (!userId) return;
+        const res = await axios.get(`http://localhost:5000/api/users/${userId}`);
+        setUserName(res.data?.name || "");
+      } catch (e) {
+        setUserName("");
+      }
+    };
+    fetchName();
+  }, [userId]);
 
   const handleLogout = () => {
     setShowModal(true);
@@ -28,7 +43,10 @@ const Navigbar = () => {
   return (
     <>
       <nav className="navbar">
-        <h2 className="logo">Hotbidz</h2>
+        <div className="nav-left">
+          <h2 className="logo">Hotbidz</h2>
+          {userName && <span className="username">{userName}</span>}
+        </div>
         <ul className="nav-links">
           <li>
             <Link 
@@ -52,6 +70,14 @@ const Navigbar = () => {
               className={isActive("/auctions") ? "active-link" : ""}
             >
               Auction Store
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/coming-soon" 
+              className={isActive("/coming-soon") ? "active-link" : ""}
+            >
+              Coming Soon
             </Link>
           </li>
           <li>

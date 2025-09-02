@@ -26,6 +26,17 @@
   color: white;
 }
 
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 3.0rem;
+}
+
+.username {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
 .nav-links {
   list-style: none;
   display: flex;

@@ -103,13 +103,17 @@ const Auctions = () => {
        return 0;
      });
 
-  const calculateTimeRemaining = (endTime, status, auctionId) => {
+  const calculateTimeRemaining = (endTime, status, auctionId, highestBidder, sellerId) => {
     const end = new Date(endTime);
     const timeDiff = end - currentTime;
 
     if (status === "closed" || timeDiff <= 0) {
       if (!closedAuctions.has(auctionId)) {
-        closeAuctionAndRecordPayment(auctionId);
+        if (highestBidder && String(highestBidder) === String(sellerId)) {
+          removeAuction(auctionId);
+        } else {
+          closeAuctionAndRecordPayment(auctionId);
+        }
         setClosedAuctions((prev) => new Set(prev.add(auctionId)));
       }
       return "Auction Ended";
@@ -139,6 +143,20 @@ const Auctions = () => {
       console.log("Auction ended and payment recorded:", response.data);
     } catch (err) {
       console.error("Error ending auction and recording payment:", err);
+    }
+  };
+
+  const removeAuction = async (auctionId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/auctions/remove/${auctionId}`
+      );
+      console.log("Auction removed:", response.data);
+      // Remove from local state so UI updates immediately
+      setAuctionCars(prevCars => prevCars.filter(car => car._id !== auctionId));
+      setClosedAuctions((prev) => new Set(prev.add(auctionId)));
+    } catch (err) {
+      console.error("Error removing auction:", err);
     }
   };
 
@@ -319,7 +337,7 @@ const Auctions = () => {
             </p>
             <p>
               <b>Time Remaining:</b>{" "}
-              {calculateTimeRemaining(car.end, car.status, car._id)}
+              {calculateTimeRemaining(car.end, car.status, car._id, car.highestBidder, car.sellerId)}
             </p>
 
             <img

@@ -71,9 +71,7 @@
 }
 
 .auction-btn,
-.trade-btn,
-.car-tile-actions .auction-btn,
-.car-tile-actions .trade-btn {
+.car-tile-actions .auction-btn {
   padding: 0.3rem 0.9rem;
   font-size: 0.7rem;
   border: none;
@@ -97,17 +95,7 @@
   background: #ffe574;
 }
 
-.trade-btn,
-.car-tile-actions .trade-btn {
-  font-weight: 500;
-  background: #0d9ddf;
-  color: #fff;
-}
 
-.trade-btn:hover,
-.car-tile-actions .trade-btn:hover {
-  background: #21b0ff;
-}
 
 
 .add-car-btn {
