@@ -15,7 +15,7 @@ router.get('/:id', async (req, res) => {
   res.json(user);
 });
 
-// Admin route to delete user
+
 router.delete('/:id', async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
@@ -26,7 +26,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// Update user name
+
 router.put('/:id/name', async (req, res) => {
   try {
     const { name } = req.body;
@@ -47,7 +47,7 @@ router.put('/:id/name', async (req, res) => {
   }
 });
 
-// Update user password
+
 router.put('/:id/password', async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -64,16 +64,16 @@ router.put('/:id/password', async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Verify current password
+    
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Current password is incorrect" });
     }
 
-    // Hash new password
+    
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Update password
+    
     user.password = hashedPassword;
     await user.save();
 

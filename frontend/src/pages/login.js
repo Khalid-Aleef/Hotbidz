@@ -17,7 +17,7 @@ const Login = () => {
       alert(res.data.message);
       localStorage.setItem('userId', res.data.userId);
       
-      // Check if admin login
+      
       if (res.data.isAdmin) {
         localStorage.setItem('isAdmin', 'true');
         navigate('/admin');

@@ -71,7 +71,7 @@ const MyBids = () => {
         alert("Payment successful!");
         setShowPaymentModal(false);
         
-        // Refresh the page after successful payment
+        
         setTimeout(() => {
           window.location.reload();
         }, 1000);

@@ -9,7 +9,7 @@ const ComingSoon = () => {
   const [now, setNow] = useState(new Date());
   const [isPromoting, setIsPromoting] = useState(false);
 
-  // No user filter; show all including user's own
+  
 
   const fetchItems = () => {
     axios
@@ -33,7 +33,7 @@ const ComingSoon = () => {
     return () => clearInterval(t);
   }, []);
 
-  // Auto-promote when time has passed; then refresh list
+  
   useEffect(() => {
     const due = items.filter(i => new Date(i.start) <= now);
     if (due.length === 0 || isPromoting) return;
@@ -41,26 +41,26 @@ const ComingSoon = () => {
     const promoteAll = async () => {
       setIsPromoting(true);
       try {
-        // Promote auctions sequentially to prevent race conditions
+        
         for (const item of due) {
           try {
             await axios.post(`http://localhost:5000/api/comingsoon/promote/${item._id}`);
           } catch (error) {
-            // Log error but continue with other items
+            
             console.log(`Failed to promote auction ${item._id}:`, error.response?.data?.message || error.message);
           }
         }
         fetchItems();
       } catch (e) {
-        // ignore errors (e.g., already promoted) and refetch anyway
+        
         fetchItems();
       } finally {
         setIsPromoting(false);
       }
     };
     promoteAll();
-    // only trigger when items or time ticks cause newly-due entries
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
+    
   }, [items, now]);
 
   const formatRemaining = (start) => {

@@ -46,7 +46,7 @@ const MyAuction = () => {
       });
   }, [userId]);
 
-  // Live time update every second
+  
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -55,7 +55,7 @@ const MyAuction = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Calculate remaining time
+  
   const calculateTimeRemaining = (endTime) => {
     if (!endTime) return "N/A";
 
@@ -80,14 +80,14 @@ const MyAuction = () => {
     }
   };
 
-  // Handle opening details modal
+  
   const handleCarClick = (car, e) => {
     if (e.target.tagName === "BUTTON") return;
     setSelectedCar(car);
     setShowDetails(true);
   };
 
-  // Handle adding a comment
+  
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
 
@@ -103,7 +103,7 @@ const MyAuction = () => {
     }
   };
 
-  // Handle adding/removing a like
+  
   const handleLike = async (carId) => {
     try {
       const response = await axios.post(
@@ -111,7 +111,7 @@ const MyAuction = () => {
         { userId }
       );
       
-      // Update the auction data with the new like count and likedBy array
+      
       setAuctionCars(prevCars => 
         prevCars.map(car => 
           car._id === carId 
@@ -124,7 +124,7 @@ const MyAuction = () => {
         )
       );
 
-      // Update the selected car for the details modal
+      
       setSelectedCar(prev => 
         prev && prev._id === carId 
           ? { 

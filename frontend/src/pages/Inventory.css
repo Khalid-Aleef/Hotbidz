@@ -255,12 +255,12 @@
   flex-wrap: wrap;
 }
 
-/* Search bar */
+
 .inventory-filter input[type="text"] {
   padding: 0.6rem 1rem;
   border-radius: 8px;
-  border: 1px solid #ffffff; /* golden border for visibility */
-  background: rgba(0, 0, 0, 0.6); /* darker background */
+  border: 1px solid #ffffff; 
+  background: rgba(0, 0, 0, 0.6); 
   color: #fff;
   font-size: 1rem;
   transition: all 0.25s ease;
@@ -268,7 +268,7 @@
 }
 
 .inventory-filter input[type="text"]::placeholder {
-  color: rgba(255, 255, 255, 0.9); /* brighter placeholder */
+  color: rgba(255, 255, 255, 0.9); 
 }
 
 .inventory-filter input[type="text"]:focus {
@@ -278,11 +278,11 @@
   box-shadow: 0 0 8px #c3c3c3;
 }
 
-/* Dropdown */
+
 .inventory-filter select {
   padding: 0.6rem 1rem;
   border-radius: 8px;
-  border: 1px solid #0d9ddf; /* blue border for contrast */
+  border: 1px solid #0d9ddf; 
   background: rgba(0, 0, 0, 0.6);
   color: #fff; 
   font-size: 1rem;

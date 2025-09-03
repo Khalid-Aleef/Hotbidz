@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
         cmnt: [] 
       });
       
-      // Check for first auction achievement
+      
       const seller = await User.findById(sellerId);
       if (seller && seller.fauc === 0) {
         seller.fauc = 1;
@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
       return res.json({ message: 'Auction created', auction: doc });
     }
 
-    // Save to ComingSoon if start date is in the future
+    
     const csDoc = await ComingSoon.create({
       carId,
       sellerId,
@@ -88,11 +88,11 @@ router.post('/:auctionId/comment', async (req, res) => {
     const auction = await AuctionStore.findById(auctionId);
     if (!auction) return res.status(404).json({ message: 'Auction not found' });
 
-    // fetch the user’s name
+    
     const user = await User.findById(userId).select('name');
     const userName = user?.name || 'Unknown';
 
-    //  push comment with userName, not userId
+    
     auction.cmnt.push({ userName, text, createdAt: new Date() });
     await auction.save();
 
@@ -111,21 +111,21 @@ router.post('/:auctionId/like', async (req, res) => {
     const auction = await AuctionStore.findById(auctionId);
     if (!auction) return res.status(404).json({ message: 'Auction not found' });
 
-    // Initialize likedBy array if it doesn't exist
+    
     if (!auction.likedBy) {
       auction.likedBy = [];
     }
 
-    // Check if user has already liked this auction
+    
     const userLikedIndex = auction.likedBy.indexOf(userId);
     
     if (userLikedIndex === -1) {
-      // User hasn't liked yet - add like
+      
       auction.likedBy.push(userId);
       auction.likes = (auction.likes || 0) + 1;
       res.json({ message: 'Like added', auction, liked: true });
     } else {
-      // User has already liked - remove like
+      
       auction.likedBy.splice(userLikedIndex, 1);
       auction.likes = Math.max(0, (auction.likes || 0) - 1);
       res.json({ message: 'Like removed', auction, liked: false });
@@ -161,7 +161,7 @@ router.get('/', async (req, res) => {
     auctions.forEach(a => {
       a.cmnt = (a.cmnt || []).map(c => ({
         ...c,
-        userName: c.userName || c.userId || 'User' // <- fallback to old field
+        userName: c.userName || c.userId || 'User' 
       }));
     });
       
@@ -180,7 +180,7 @@ router.get('/', async (req, res) => {
 router.post('/bid/:auctionId', bidController.placeBid);
 router.post('/end/:auctionId', auctionController.endAuctionAndRecordPayment); 
  
-// Delete an auction (e.g., when highest bidder is the seller)
+
 router.delete('/remove/:auctionId', async (req, res) => {
   try {
     const { auctionId } = req.params;

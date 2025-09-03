@@ -40,7 +40,7 @@ const Auctions = () => {
             const sellerResponse = await axios.get(`http://localhost:5000/api/users/${car.sellerId}`);
             const sellerName = sellerResponse.data.name;
             
-            // Get highest bidder name if exists
+            
             let highestBidderName = "No bids yet";
             if (car.highestBidder && car.highestBidder !== car.sellerId) {
               try {
@@ -77,7 +77,7 @@ const Auctions = () => {
       });
   }, [userId]);
 
-  // Live time update every second
+  
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -152,7 +152,7 @@ const Auctions = () => {
         `http://localhost:5000/api/auctions/remove/${auctionId}`
       );
       console.log("Auction removed:", response.data);
-      // Remove from local state so UI updates immediately
+      
       setAuctionCars(prevCars => prevCars.filter(car => car._id !== auctionId));
       setClosedAuctions((prev) => new Set(prev.add(auctionId)));
     } catch (err) {
@@ -190,11 +190,11 @@ const Auctions = () => {
         { userId, bidAmount }
       );
 
-      // Get current user name for highest bidder
+      
       const currentUser = await axios.get(`http://localhost:5000/api/users/${userId}`);
       const bidderName = currentUser.data.name;
 
-      // Update the auction data with the new bid and highest bidder
+      
       setAuctionCars(prevCars => 
         prevCars.map(car => 
           car._id === selectedCar._id 
@@ -208,7 +208,7 @@ const Auctions = () => {
         )
       );
 
-      // Update the selected car for the details modal
+      
       setSelectedCar(prev => 
         prev ? { 
           ...prev, 
@@ -231,14 +231,14 @@ const Auctions = () => {
     setBidError("");
   };
 
-  //  Handle opening details modal
+  
   const handleCarClick = (car, e) => {
     if (e.target.tagName === "BUTTON") return; 
     setSelectedCar(car);
     setShowDetails(true);
   };
 
-  //  Handle adding a comment
+  
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
 
@@ -262,7 +262,7 @@ const Auctions = () => {
         { userId }
       );
       
-      // Update the auction data with the new like count and likedBy array
+      
       setAuctionCars(prevCars => 
         prevCars.map(car => 
           car._id === carId 
@@ -275,7 +275,7 @@ const Auctions = () => {
         )
       );
 
-      // Update the selected car for the details modal
+      // in detail modal , it will show updated data
       setSelectedCar(prev => 
         prev && prev._id === carId 
           ? { 

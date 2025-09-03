@@ -37,10 +37,10 @@ const AdminPanel = () => {
   };
 
   const handleLogout = () => {
-    // Clear any admin session
+    
     localStorage.removeItem('adminToken');
     localStorage.removeItem('userToken');
-    // Redirect to auth page
+    
     navigate('/');
   };
 

@@ -3,7 +3,7 @@ const router = express.Router();
 const ComingSoon = require('../models/coming_soon');
 const AuctionStore = require('../models/auction_store');
 
-// List all coming soon auctions (optionally exclude user's own)
+
 router.get('/', async (req, res) => {
   try {
     const { userId } = req.query;
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Promote scheduled auction to live if start time reached (idempotent)
+
 router.post('/promote/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -32,14 +32,14 @@ router.post('/promote/:id', async (req, res) => {
 
     console.log(`Attempting to promote coming soon auction ${id} for car ${cs.carId}`);
 
-    // Check if car is already in any auction (active or closed)
+    
     const existingAuction = await AuctionStore.findOne({
       carId: cs.carId
     });
 
     if (existingAuction) {
       console.log(`Car ${cs.carId} already exists in auction ${existingAuction._id} with status ${existingAuction.status}`);
-      // Remove from coming soon since it's already in auction
+      
       await ComingSoon.findByIdAndDelete(id);
       return res.status(400).json({ 
         message: 'Car is already in an auction',
@@ -50,7 +50,7 @@ router.post('/promote/:id', async (req, res) => {
 
     console.log(`No existing auction found for car ${cs.carId}, creating new auction`);
 
-    // Double-check before creating to prevent race conditions
+    
     const doubleCheck = await AuctionStore.findOne({
       carId: cs.carId
     });
@@ -65,7 +65,7 @@ router.post('/promote/:id', async (req, res) => {
       });
     }
 
-    // Create in auction store
+    
     const live = await AuctionStore.create({
       carId: cs.carId,
       sellerId: cs.sellerId,

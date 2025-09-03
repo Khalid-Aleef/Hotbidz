@@ -135,7 +135,7 @@
   background: linear-gradient(135deg, #45a049, #3d8b40);
 }
 
-/* ---------- Bid Modal ---------- */
+
 .bid-form-modal {
   position: fixed;
   top: 0;
@@ -200,7 +200,7 @@
   margin-bottom: 1rem;
 }
 
-/* ---------- Details Modal ---------- */
+
 .details-modal {
   position: fixed;
   top: 0;
@@ -221,9 +221,9 @@
   border-radius: 12px;
   padding: 1.2rem;
   width: 95%;
-  max-width: 420px; /* ✅ smaller modal */
-  max-height: 90vh; /* ✅ fit to screen */
-  overflow-y: auto; /* ✅ scroll inside if content too long */
+  max-width: 420px; 
+  max-height: 90vh; 
+  overflow-y: auto; 
   color: #fff;
   text-align: center;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
@@ -236,7 +236,7 @@
   margin: 0.8rem 0;
 }
 
-/* ---------- Close Button ---------- */
+
 .details-modal-content button {
   margin-top: 1rem;
   padding: 0.5rem 1.1rem;
@@ -253,14 +253,14 @@
   background: #ff7070;
 }
 
-/* ---------- Comments Section ---------- */
+
 .comments-section {
   margin-top: 1rem;
   text-align: left;
   background: rgba(0, 0, 0, 0.2);
   padding: 0.8rem;
   border-radius: 8px;
-  max-height: 200px; /* ✅ scrollable comments */
+  max-height: 200px; 
   overflow-y: auto;
 }
 
@@ -283,7 +283,7 @@
   line-height: 1.2rem;
 }
 
-/* ---------- Add Comment Bar ---------- */
+
 .add-comment {
   margin-top: 0.8rem;
   display: flex;
@@ -315,7 +315,7 @@
   background: #29b4f8;
 }
 
-/* ---------- Animations ---------- */
+
 @keyframes scaleIn {
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }

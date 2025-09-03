@@ -47,7 +47,7 @@
   margin: 0.4rem 0;
 }
 
-/* ====== Achievements Section ====== */
+
 
 .achievement-icons {
   display: flex;
@@ -61,18 +61,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 120px; /* allow bigger icons */
+  max-width: 120px; 
 }
 
 .achievement-icon {
-  width: 100px;   /* bigger size */
-  height: 100px;  /* bigger size */
+  width: 100px;   
+  height: 100px;  
   object-fit: contain;
   margin-bottom: 0.3rem;
 }
 
 .achievement-item span {
-  font-size: 0.8rem; /* smaller text */
+  font-size: 0.8rem; 
   color: #ddd;       
   text-align: center;
 }
@@ -95,7 +95,7 @@
   font-weight: 400;
 }
 
-/* ====== Car Showcase Section ====== */
+
 
 .car-showcase {
   margin-top: 2rem;

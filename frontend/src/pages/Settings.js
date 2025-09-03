@@ -59,7 +59,7 @@ const Settings = () => {
       });
       setMessage('Name updated successfully!');
       setError('');
-      fetchUserData(); // Refresh user data
+      fetchUserData(); 
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to update name');
       setMessage('');
@@ -88,10 +88,10 @@ const Settings = () => {
       setMessage('Password updated successfully! You will be logged out in 3 seconds...');
       setError('');
       
-      // Clear password form
+      
       setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
       
-      // Auto logout after 3 seconds
+      
       setTimeout(() => {
         localStorage.removeItem('userId');
         localStorage.removeItem('isAdmin');
@@ -117,7 +117,7 @@ const Settings = () => {
       {error && <div className="error-message">{error}</div>}
 
       <div className="settings-content">
-        {/* Name Update Section */}
+        {/* Name Update  */}
         <div className="settings-section">
           <h2>Update Name</h2>
           <form onSubmit={updateName} className="settings-form">
@@ -137,7 +137,7 @@ const Settings = () => {
           </form>
         </div>
 
-        {/* Password Update Section */}
+        {/* Password Update */}
         <div className="settings-section">
           <h2>Update Password</h2>
           <form onSubmit={updatePassword} className="settings-form">
@@ -181,7 +181,7 @@ const Settings = () => {
           </form>
         </div>
 
-        {/* User Info Section */}
+        {/* User Info */}
         <div className="settings-section">
           <h2>Account Information</h2>
           <div className="user-info">

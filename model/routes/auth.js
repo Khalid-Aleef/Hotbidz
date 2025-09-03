@@ -39,7 +39,7 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    // Check for admin login
+    //  admin login
     if (email === 'admin' && password === 'admin') {
       return res.json({ message: 'Admin login successful', isAdmin: true, userId: 'admin' });
     }

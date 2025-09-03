@@ -3,7 +3,7 @@ const User = require('../models/user');
 // Get all users
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select('-password'); // Exclude password from response
+    const users = await User.find({}).select('-password'); 
     res.json(users);
   } catch (err) {
     console.error(err);
