@@ -142,3 +142,30 @@
   font-size: 0.9rem;
   margin-top: 1rem;
 }
+
+
+.payment-methods {
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.payment-methods-list {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.payment-method-btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  color: #222;
+}
+
+.payment-method-btn.selected {
+  border: 2px solid #4caf50;
+  background: #e8f5e9;
+}

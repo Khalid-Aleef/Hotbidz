@@ -12,7 +12,8 @@ router.post('/signup', async (req, res) => {
   }
 
   try {
-    const existingUser = await User.findOne({ email });
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) return res.status(409).json({ message: 'Email already registered' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -22,7 +23,7 @@ router.post('/signup', async (req, res) => {
       ownedCar: 0,
       sex,
       type: "Fresh",
-      email,
+      email: normalizedEmail,
       password: hashedPassword,
       profileImage: "./Userdp/userdp.jpeg",
       achievements: [],
@@ -44,7 +45,8 @@ router.post('/login', async (req, res) => {
       return res.json({ message: 'Admin login successful', isAdmin: true, userId: 'admin' });
     }
 
-    const user = await User.findOne({ email });
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
     const isMatch = await bcrypt.compare(password, user.password);

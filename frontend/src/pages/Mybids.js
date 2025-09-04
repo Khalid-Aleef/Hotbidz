@@ -12,6 +12,7 @@ const MyBids = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [paymentError, setPaymentError] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   const userId = localStorage.getItem('userId'); 
 
@@ -129,6 +130,21 @@ const MyBids = () => {
         <div className="payment-modal-overlay">
           <div className="payment-modal-content">
             <h4>Complete Your Payment</h4>
+            <div className="payment-methods">
+              <b>Select Payment Method:</b>
+              <div className="payment-methods-list">
+                {['Bkash', 'Nagad', 'Card', 'COD'].map((method) => (
+                  <button
+                    key={method}
+                    type="button"
+                    onClick={() => setPaymentMethod(method)}
+                    className={`payment-method-btn ${paymentMethod === method ? 'selected' : ''}`}
+                  >
+                    {method}
+                  </button>
+                ))}
+              </div>
+            </div>
             <form onSubmit={handlePaymentSubmit}>
               <label>
                 Amount:

@@ -14,6 +14,7 @@ const Settings = () => {
   });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [emailForm, setEmailForm] = useState({ email: "" });
   const navigate = useNavigate();
 
   const userId = localStorage.getItem('userId');
@@ -31,6 +32,7 @@ const Settings = () => {
       const response = await axios.get(`http://127.0.0.1:5000/api/users/${userId}`);
       setUser(response.data);
       setNameForm({ name: response.data.name });
+      setEmailForm({ email: response.data.email || "" });
       setLoading(false);
     } catch (err) {
       setError('Failed to fetch user data');
@@ -44,6 +46,10 @@ const Settings = () => {
 
   const handlePasswordChange = (e) => {
     setPasswordForm({ ...passwordForm, [e.target.name]: e.target.value });
+  };
+
+  const handleEmailChange = (e) => {
+    setEmailForm({ email: e.target.value });
   };
 
   const updateName = async (e) => {
@@ -104,6 +110,25 @@ const Settings = () => {
     }
   };
 
+  const updateEmail = async (e) => {
+    e.preventDefault();
+    const email = emailForm.email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+    try {
+      await axios.put(`http://127.0.0.1:5000/api/users/${userId}/email`, { email });
+      setMessage('Email updated successfully!');
+      setError('');
+      fetchUserData();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to update email');
+      setMessage('');
+    }
+  };
+
   if (loading) return <div className="settings-loading">Loading...</div>;
 
   return (
@@ -117,6 +142,26 @@ const Settings = () => {
       {error && <div className="error-message">{error}</div>}
 
       <div className="settings-content">
+        {/* Email Update */}
+        <div className="settings-section">
+          <h2>Update Email</h2>
+          <form onSubmit={updateEmail} className="settings-form">
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={emailForm.email}
+                onChange={handleEmailChange}
+                placeholder="Enter your new email"
+                required
+              />
+            </div>
+            <button type="submit" className="update-btn">Update Email</button>
+          </form>
+        </div>
+
         {/* Name Update  */}
         <div className="settings-section">
           <h2>Update Name</h2>

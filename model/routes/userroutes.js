@@ -83,4 +83,36 @@ router.put('/:id/password', async (req, res) => {
   }
 });
 
+// Update user email
+router.put('/:id/email', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ message: 'Valid email is required' });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(normalizedEmail)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
+    const existing = await User.findOne({ email: normalizedEmail });
+    if (existing && existing._id.toString() !== req.params.id) {
+      return res.status(409).json({ message: 'Email already in use' });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { email: normalizedEmail },
+      { new: true }
+    );
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json({ message: 'Email updated successfully', user });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
 module.exports = router;

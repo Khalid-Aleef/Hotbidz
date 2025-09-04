@@ -35,7 +35,7 @@ const UserProfile = () => {
         <h1>COLLECTOR'S PROFILE</h1>
         <p>Name: {user.name}</p>
         <p>Sex: {user.sex}</p>
-        <p>Owned Cars: {user.ownedCar}</p>
+        <p>Owned Cars: {cars.length}</p>
         <p>Email: {user.email}</p>
         <p>Type: {user.type}</p>
         
